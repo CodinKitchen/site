@@ -1,0 +1,11 @@
+{% set classes = classes|default("flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-teal-700 border border-transparent rounded-md hover:bg-teal-500 md:py-4 md:text-lg md:px-10 font-bold") %}
+
+<div class="flex justify-center mt-5 sm:mt-8">
+    <div class="rounded-md shadow">
+{% if link is defined %}
+	<a href="{{ link }}" class="{{ classes }}">{{ label }}</a>
+{% else %}
+	<button class="{{ classes }}">{{ label }}</button>
+{% endif %}
+    </div>
+</div>

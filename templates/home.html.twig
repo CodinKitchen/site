@@ -1,5 +1,17 @@
 {% extends "base.html.twig" %}
 
-{% block body %}
-<p>HomePage</p>
+{% block content %}
+	<h1 class="my-20 text-5xl font-bold text-center">Welcome to my Kitchen !</h1>
+	<section class="flex my-20">
+		<img class="inline-block w-48 rounded-full" src="{{ asset('build/images/portrait.jpeg') }}" alt="portrait">
+        <p class="ml-10 text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit dolor in odio lobortis convallis. Pellentesque aliquam facilisis augue, id tincidunt sapien accumsan et. Aliquam nunc arcu, sodales id metus ut, tempus hendrerit ex. Sed ornare lacus augue, in ultricies dui tristique id. Nunc sem nulla, sagittis eu auctor id, rutrum a eros. In porttitor enim non dui placerat, id rutrum ex tempus. Aenean mattis pretium ex non consectetur.</p>
+	</section>
+    <hr class="mx-auto w-72">
+    <section class="my-20">
+		<div class="flex w-2/3 mx-auto bg-green-200 rounded-lg shadow-md h-72">
+            <div class="w-1/3 border-r border-r-grey">Test</div>
+            <div class="w-2/3">Test</div>
+        </div>
+        {% include 'components/_button.html.twig' with {label: 'Réserver'} only %}
+	</section>
 {% endblock %}
