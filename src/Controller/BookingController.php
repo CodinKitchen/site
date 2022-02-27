@@ -11,6 +11,6 @@ class BookingController extends AbstractController
     #[Route('/book', name: 'book')]
     public function index(): Response
     {
-        return $this->render('booking/index.html.twig');
+        return $this->render('book.html.twig');
     }
 }
