@@ -23,15 +23,15 @@ class User implements UserInterface
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
-    #[ORM\OneToMany(mappedBy: 'student', targetEntity: Course::class)]
-    private $courses;
+    #[ORM\OneToMany(mappedBy: 'attendee', targetEntity: Meeting::class)]
+    private $meetings;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $firstname;
 
     public function __construct()
     {
-        $this->courses = new ArrayCollection();
+        $this->Meetings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -90,29 +90,29 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection<int, Course>
+     * @return Collection<int, Meetings>
      */
-    public function getCourses(): Collection
+    public function getMeetings(): Collection
     {
-        return $this->courses;
+        return $this->meetings;
     }
 
-    public function addCourse(Course $course): self
+    public function addMeeting(Meeting $meeting): self
     {
-        if (!$this->courses->contains($course)) {
-            $this->courses[] = $course;
-            $course->setStudent($this);
+        if (!$this->meetings->contains($meeting)) {
+            $this->meetings[] = $meeting;
+            $meeting->setStudent($this);
         }
 
         return $this;
     }
 
-    public function removeCourse(Course $course): self
+    public function removeMeeting(Meeting $meeting): self
     {
-        if ($this->courses->removeElement($course)) {
+        if ($this->meetings->removeElement($meeting)) {
             // set the owning side to null (unless already changed)
-            if ($course->getStudent() === $this) {
-                $course->setStudent(null);
+            if ($meeting->getStudent() === $this) {
+                $meeting->setStudent(null);
             }
         }
 

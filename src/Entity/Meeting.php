@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CourseRepository;
+use App\Repository\MeetingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CourseRepository::class)]
-class Course
+#[ORM\Entity(repositoryClass: MeetingRepository::class)]
+class Meeting
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,13 +19,12 @@ class Course
     #[ORM\Column(type: 'integer')]
     private $duration;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'courses')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'meetings')]
     #[ORM\JoinColumn(nullable: false)]
-    private $student;
+    private $attendee;
 
-    #[ORM\OneToOne(targetEntity: Slot::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private $slot;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private $timeSlot;
 
     public function getId(): ?int
     {
@@ -56,26 +55,26 @@ class Course
         return $this;
     }
 
-    public function getStudent(): ?User
+    public function getAttendee(): ?User
     {
-        return $this->student;
+        return $this->attendee;
     }
 
-    public function setStudent(?User $student): self
+    public function setAttendee(?User $attendee): self
     {
-        $this->student = $student;
+        $this->attendee = $attendee;
 
         return $this;
     }
 
-    public function getSlot(): ?Slot
+    public function getTimeSlot(): ?\DateTimeImmutable
     {
-        return $this->slot;
+        return $this->timeSlot;
     }
 
-    public function setSlot(Slot $slot): self
+    public function setTimeSlot(\DateTimeImmutable $timeSlot): self
     {
-        $this->slot = $slot;
+        $this->timeSlot = $timeSlot;
 
         return $this;
     }
