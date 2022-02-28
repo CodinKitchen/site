@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width"/>
 		<title>
 			{% block title %}Welcome!
 			{% endblock %}
@@ -22,7 +23,7 @@
 			{% include 'layout/_header.html.twig' %}
 		{% endblock %}
 		{% block body %}
-			<div class="container px-20 py-4 mx-auto">
+			<div class="container px-4 py-4 mx-auto md:px-20">
 				{% block content %}{% endblock %}
 			</div>
 		{% endblock %}

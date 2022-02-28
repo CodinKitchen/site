@@ -2,9 +2,11 @@
 
 {% block content %}
 	<h1 class="my-20 text-5xl font-bold text-center">Welcome to my Kitchen !</h1>
-	<section class="flex my-20">
-		<img class="inline-block w-48 rounded-full" src="{{ asset('build/images/portrait.jpeg') }}" alt="portrait">
-		<p class="ml-10 text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit dolor in odio lobortis convallis. Pellentesque aliquam facilisis augue, id tincidunt sapien accumsan et. Aliquam nunc arcu, sodales id metus ut, tempus hendrerit ex. Sed ornare lacus augue, in ultricies dui tristique id. Nunc sem nulla, sagittis eu auctor id, rutrum a eros. In porttitor enim non dui placerat, id rutrum ex tempus. Aenean mattis pretium ex non consectetur.</p>
+	<section class="flex flex-wrap items-center my-20">
+		<div class="w-full mb-5 md:mb-0 md:w-1/4">
+			<img class="w-48 max-w-full mx-auto rounded-full aspect-square" src="{{ asset('build/images/portrait.jpeg') }}" alt="portrait">
+		</div>
+		<p class="p-4 text-justify md:w-3/4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit dolor in odio lobortis convallis. Pellentesque aliquam facilisis augue, id tincidunt sapien accumsan et. Aliquam nunc arcu, sodales id metus ut, tempus hendrerit ex. Sed ornare lacus augue, in ultricies dui tristique id. Nunc sem nulla, sagittis eu auctor id, rutrum a eros. In porttitor enim non dui placerat, id rutrum ex tempus. Aenean mattis pretium ex non consectetur.</p>
 	</section>
 	<hr class="mx-auto w-72">
 	<section class="my-20">
