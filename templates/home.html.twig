@@ -6,19 +6,21 @@
 		<div class="w-full mb-5 md:mb-0 md:w-1/4">
 			<img class="w-48 max-w-full mx-auto rounded-full aspect-square" src="{{ asset('build/images/portrait.jpeg') }}" alt="portrait">
 		</div>
-		<p class="p-4 text-justify md:w-3/4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit dolor in odio lobortis convallis. Pellentesque aliquam facilisis augue, id tincidunt sapien accumsan et. Aliquam nunc arcu, sodales id metus ut, tempus hendrerit ex. Sed ornare lacus augue, in ultricies dui tristique id. Nunc sem nulla, sagittis eu auctor id, rutrum a eros. In porttitor enim non dui placerat, id rutrum ex tempus. Aenean mattis pretium ex non consectetur.</p>
+		<div class="p-4 text-justify md:w-3/4">
+			<p class="mb-5">Après plus de dix ans à baigner dans le monde du développement web, j'ai compris que j'adorais deux choses : coder et aider d'autres développeurs. Ces dernières années vous êtres très nombreux à vous reconvertir au métier de développeur, et vous avez raison parce qu'il y a beaucoup à faire ! Mais souvent le manque de soutient vous empêche d'avancer sereinement pour démarrer votre carrière. Je partage avec vous ce que j'ai appris par ma propre expérience  et je vous accompagne dans votre nouvelle vie de dev.</p>
+			<p>Vous pouvez me suivre sur <a href="https://www.instagram.com/codin.kitchen/" class="font-bold text-teal-700 hover:text-teal-500">Instagram</a>, me rejoindre chaque vendredi à 20h sur <a href="https://www.twitch.tv/codinkitchen" class="font-bold text-teal-700 hover:text-teal-500">Twitch</a> ou réserver un séance de coaching rien que pour vous (juste en dessous)
+		</div>
 	</section>
 	<hr class="mx-auto w-72">
 	<section class="my-20">
+		<h2 class="my-20 text-4xl font-bold text-center">Besoin d'un coach ?</h2>
 		<div class="table w-2/3 mx-auto bg-green-200 rounded-lg shadow-md mb-14 h-72">
-			<p class="table-cell w-1/3 px-10 text-center align-middle border-r border-r-gray-700">Test</p>
-			<ul class="table-cell px-10 align-middle list-disc">
-				<li>Des cours sur mesure</li>
-				<li>Replay disponible pendant 6 mois</li>
-				<li>Exercices adaptés à vos besoins</li>
-				<li>Questions / Réponses</li>
+			<ul class="table-cell px-20 align-middle list-disc">
+				<li class="mb-4">Je vous aide à y voir plus clair sur vos projets et votre carrière</li>
+				<li class="mb-4">Vous pourrez revoir nos sessions en replay pendant 6 mois</li>
+				<li class="mb-4">Je vous accompagne techniquement pour vous faire monter en compétences</li>
 			</ul>
 		</div>
-		{% include 'components/_button.html.twig' with {label: 'Réserver', link: path('book')} only %}
+		{% include 'components/_button.html.twig' with {label: 'Réservez votre session >', link: path('book')} only %}
 	</section>
 {% endblock %}

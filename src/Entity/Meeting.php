@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MeetingRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MeetingRepository::class)]
@@ -11,20 +12,20 @@ class Meeting
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id;
 
     #[ORM\Column(type: 'string', length: 10)]
-    private $status;
+    private ?string $status;
 
     #[ORM\Column(type: 'integer')]
-    private $duration;
+    private ?int $duration;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'meetings')]
     #[ORM\JoinColumn(nullable: false)]
-    private $attendee;
+    private ?User $attendee;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private $timeSlot;
+    private ?DateTimeImmutable $timeSlot;
 
     public function getId(): ?int
     {

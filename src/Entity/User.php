@@ -15,23 +15,23 @@ class User implements UserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private $email;
+    private ?string $email;
 
     #[ORM\Column(type: 'json')]
-    private $roles = [];
+    private array $roles = [];
 
     #[ORM\OneToMany(mappedBy: 'attendee', targetEntity: Meeting::class)]
-    private $meetings;
+    private ?Collection $meetings;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $firstname;
+    private ?string $firstname;
 
     public function __construct()
     {
-        $this->Meetings = new ArrayCollection();
+        $this->meetings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,7 +101,7 @@ class User implements UserInterface
     {
         if (!$this->meetings->contains($meeting)) {
             $this->meetings[] = $meeting;
-            $meeting->setStudent($this);
+            $meeting->setAttendee($this);
         }
 
         return $this;
@@ -111,8 +111,8 @@ class User implements UserInterface
     {
         if ($this->meetings->removeElement($meeting)) {
             // set the owning side to null (unless already changed)
-            if ($meeting->getStudent() === $this) {
-                $meeting->setStudent(null);
+            if ($meeting->getAttendee() === $this) {
+                $meeting->setAttendee(null);
             }
         }
 
