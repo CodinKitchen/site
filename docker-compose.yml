@@ -72,6 +72,11 @@ services:
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
 
+  maildev:
+    image: maildev/maildev
+    ports:
+      - "1081:80"
+
 volumes:
   php_socket:
   caddy_data:

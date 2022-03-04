@@ -30,11 +30,13 @@ RUN set -eux; \
 		$PHPIZE_DEPS \
 		icu-dev \
 		libzip-dev \
+		libxslt-dev \
 		zlib-dev \
 	; \
 	\
 	docker-php-ext-configure zip; \
 	docker-php-ext-install -j$(nproc) \
+		xsl \
 		intl \
 		zip \
 	; \

@@ -9,5 +9,7 @@ module.exports = {
       'bold-italic': ['SpaceMono-BoldItalic'],
     }
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 }

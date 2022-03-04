@@ -9,6 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: MeetingRepository::class)]
 class Meeting
 {
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_CONFIRMED = 'confirmed';
+    public const STATUS_CANCELED = 'canceled';
+
+    public const STATUSES = [
+        self::STATUS_DRAFT,
+        self::STATUS_CONFIRMED,
+        self::STATUS_CANCELED,
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
