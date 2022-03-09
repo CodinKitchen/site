@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+<div class="mx-auto md:w-1/3">
+    {{ form_start(registrationForm) }}
+        {{ form_rest(registrationForm) }}
+        {% include "components/_button.html.twig" with {type: 'submit', label: 'Je m\'inscris >'} only %}
+    {{ form_end(registrationForm) }}
+</div>
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\MeetingStatus;
 use App\Repository\MeetingRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,23 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: MeetingRepository::class)]
 class Meeting
 {
-    public const STATUS_DRAFT = 'draft';
-    public const STATUS_CONFIRMED = 'confirmed';
-    public const STATUS_CANCELED = 'canceled';
-
-    public const STATUSES = [
-        self::STATUS_DRAFT,
-        self::STATUS_CONFIRMED,
-        self::STATUS_CANCELED,
-    ];
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $id;
 
-    #[ORM\Column(type: 'string', length: 10)]
-    private ?string $status;
+    #[ORM\Column(type: 'string', length: 10, enumType: MeetingStatus::class)]
+    private ?MeetingStatus $status;
 
     #[ORM\Column(type: 'integer')]
     private ?int $duration;
@@ -42,12 +33,12 @@ class Meeting
         return $this->id;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?MeetingStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(MeetingStatus $status): self
     {
         $this->status = $status;
 

@@ -1,8 +1,10 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
-<form action="{{ path('login') }}" method="POST">
-    <input type="email" name="email">
-    <button type="submit">Send Login Link</button>
-</form>
+<div class="mx-auto md:w-1/3">
+    {{ form_start(loginForm) }}
+        {{ form_rest(loginForm) }}
+        {% include "components/_button.html.twig" with {type: 'submit', label: 'Recevoir mon lien de connexion'} only %}
+    {{ form_end(loginForm) }}
+</div>
 {% endblock %}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="emails.booking.subject">
+                <source>emails.booking.subject</source>
+                <target>J'ai bien reçu ta demande !</target>
+            </trans-unit>
+            <trans-unit id="emails.booking.content">
+                <source>emails.booking.content</source>
+                <target>
+                    Merci %firstname% pour ta demande de coaching !
+
+                    J'ai bien reçu que tu voulais qu'on se voit le %date% à %time%.
+
+                    Je te confirme aussi rapidement que possible
+                </target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

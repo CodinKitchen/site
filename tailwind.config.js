@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./templates/**/*.twig"],
+  content: ["./templates/**/*.twig", "./vendor/symfony/twig-bridge/Resources/views/Form/tailwind_2_layout.html.twig"],
   theme: {
     extend: {},
     fontFamily: {
