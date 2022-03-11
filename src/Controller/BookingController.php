@@ -47,8 +47,8 @@ class BookingController extends AbstractController
                 ],
                 [
                     'firstname' => $user->getFirstname(),
-                    'date' => $meeting->getTimeSlot()->format('d/m/Y'),
-                    'time' => $meeting->getTimeSlot()->format('H:i'),
+                    'date' => $meeting->getTimeSlot()?->format('d/m/Y'),
+                    'time' => $meeting->getTimeSlot()?->format('H:i'),
                     'duration' => $meeting->getDuration(),
                 ],
             );
