@@ -29,9 +29,7 @@ class MeetingType extends AbstractType
                 $rule->setUntil(new DateTime('now + 14 days'));
                 $rule->setStartDate((new DateTime())->setTime(0, 0));
                 $transformer = new ArrayTransformer();
-                /** @var Recurrence[] $recurrences */
-                $recurrences = $transformer->transform($rule)->toArray();
-                $dates += $recurrences;
+                $dates += $transformer->transform($rule)->toArray();
             }
         }
 
