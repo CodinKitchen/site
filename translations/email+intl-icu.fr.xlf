@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="notification.login.link.subject">
+                <source>notification.login.link.subject</source>
+                <target>Welcome back {firstname} !</target>
+            </trans-unit>
+            <trans-unit id="notification.login.link.content">
+                <source>notification.login.link.content</source>
+                <target>
+                    Clique sur le lien ci-dessous pour te connecter.
+                    
+                    Ce lien expirera le {date} à {time}.
+                </target>
+            </trans-unit>
+            <trans-unit id="notification.login.link.action">
+                <source>notification.login.link.action</source>
+                <target>Se connecter</target>
+            </trans-unit>
+            <trans-unit id="notification.register.subject">
+                <source>notification.register.subject</source>
+                <target>Welcome to the CodinKitchen {firstname} !</target>
+            </trans-unit>
+            <trans-unit id="notification.register.content">
+                <source>notification.register.content</source>
+                <target>
+                    Bienvenu {firstname} !
+                    
+                    On se voit bientôt :)
+                </target>
+            </trans-unit>
+            <trans-unit id="notification.booking.request.subject">
+                <source>notification.booking.request.subject</source>
+                <target>J'ai bien reçu ta demande {firstname} !</target>
+            </trans-unit>
+            <trans-unit id="notification.booking.request.content">
+                <source>notification.booking.request.content</source>
+                <target>
+                    Merci {firstname} pour ta demande de coaching !
+
+                    J'ai bien reçu que tu voulais qu'on se voit le {date} à {time} pour {duration}h.
+
+                    Je te confirme aussi rapidement que possible :)
+                </target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

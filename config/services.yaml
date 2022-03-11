@@ -24,3 +24,7 @@ services:
     
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Form\Extension\TranslationExtension:
+        tags: 
+            - {name: 'form.type_extension', priority: 10}

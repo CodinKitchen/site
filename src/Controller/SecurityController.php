@@ -4,21 +4,17 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\LoginType;
-use App\Form\RegistrationType;
+use App\Notification\AttendeeNotification;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\Notification\NotificationFactory;
 use Exception;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\Security\Http\Authenticator\LoginLinkAuthenticator;
 use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
-use Symfony\Component\Security\Http\LoginLink\LoginLinkNotification;
 
 class SecurityController extends AbstractController
 {
@@ -27,6 +23,7 @@ class SecurityController extends AbstractController
         LoginLinkHandlerInterface $loginLinkHandler,
         UserRepository $userRepository,
         NotifierInterface $notifier,
+        NotificationFactory $notificationFactory,
         Request $request
     ) {
         $user = new User();
@@ -47,10 +44,20 @@ class SecurityController extends AbstractController
             }
 
             $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
-            $notification = new LoginLinkNotification(
-                $loginLinkDetails,
-                'Welcome back !'
+            /** @var AttendeeNotification $notification */
+            $notification = $notificationFactory->createNotification(
+                AttendeeNotification::class,
+                'notification.login.link.subject',
+                'notification.login.link.content',
+                ['email'],
+                ['firstname' => $user->getFirstname()],
+                [
+                    'date' => $loginLinkDetails->getExpiresAt()->format('d/m/Y'),
+                    'time' => $loginLinkDetails->getExpiresAt()->format('H:i')
+                ],
             );
+
+            $notification->setAction('notification.login.link.content', $loginLinkDetails->getUrl());
 
             $recipient = new Recipient($user->getEmail());
 
@@ -60,42 +67,6 @@ class SecurityController extends AbstractController
         }
 
         return $this->renderForm('security/login.html.twig', ['loginForm' => $loginForm]);
-    }
-
-    #[Route('/register', name: 'register', methods: ['GET', 'POST'])]
-    public function register(
-        Request $request,
-        LoginLinkAuthenticator $mainAuthenticator,
-        UserAuthenticatorInterface $userAuthenticator,
-        EntityManagerInterface $entityManager,
-        NotifierInterface $notifier
-    ) {
-        $user = new User();
-
-        $registrationForm = $this->createForm(RegistrationType::class, $user);
-        $registrationForm->handleRequest($request);
-
-        if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            $notification = new Notification(
-                'Welcome to my Kitchen !',
-                ['email']
-            );
-            $notification->content(sprintf('
-                Bienvenu %s !
-            
-                On se voit bientôt !', $user->getFirstname()));
-
-            $recipient = new Recipient($user->getEmail());
-
-            $notifier->send($notification, $recipient);
-
-            return $userAuthenticator->authenticateUser($user, $mainAuthenticator, $request);
-        }
-
-        return $this->renderForm('security/register.html.twig', ['registrationForm' => $registrationForm]);
     }
 
     #[Route('/logout', name: 'logout', methods: ['GET'])]

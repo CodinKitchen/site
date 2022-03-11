@@ -9,20 +9,19 @@ use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\Recipient\EmailRecipientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class BookingNotification extends Notification implements EmailNotificationInterface
+class AdminNotification extends Notification implements EmailNotificationInterface, TranslatableNotificationInterface
 {
-    public function __construct(public TranslatorInterface $translator, string $subject, array $channels = [])
-    {
-        parent::__construct($subject, $channels);
-    }
+    use TranslatableNotificationTrait;
+
+    private const THEME = 'admin';
 
     public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): ?EmailMessage
     {
-        $email = NotificationEmail::asPublicEmail()
+        $email = (new NotificationEmail())
             ->to($recipient->getEmail())
-            ->subject($this->getSubject())
-            ->content()
-            ->action('Sign in', $this->loginLinkDetails->getUrl())
+            ->subject($this->getTranslator()->trans($this->getSubject(), $this->getSubjectParameters(), 'email'))
+            ->content($this->getTranslator()->trans($this->getContent(), $this->getContentParameters(), 'email'))
+            ->theme(self::THEME)
         ;
 
         return new EmailMessage($email);

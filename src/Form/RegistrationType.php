@@ -14,15 +14,17 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class)
-            ->add('firstname', TextType::class)
+            ->add('email', EmailType::class, [
+                'label' => 'form.register.email.label',
+            ])
+            ->add('firstname', TextType::class, [
+                'label' => 'form.register.firstname.label'
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
+        $resolver->setDefault('data_class', User::class);
     }
 }

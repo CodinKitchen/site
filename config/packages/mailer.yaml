@@ -3,3 +3,5 @@ framework:
         dsn: '%env(MAILER_DSN)%'
         envelope:
             sender: 'noreply@codin.kitchen'
+        headers:
+            From: 'CodinKitchen <noreplay@codin.kitchen>'

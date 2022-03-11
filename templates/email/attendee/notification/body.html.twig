@@ -1,0 +1,9 @@
+{% extends "@email/default/notification/body.html.twig" %}
+
+{% block content %}
+	{% if markdown %}
+		{{ include('@email/zurb_2/notification/content_markdown.html.twig') }}
+	{% else %}
+		{{ (raw ? content|raw : content)|nl2br }}
+	{% endif %}
+{% endblock %}
