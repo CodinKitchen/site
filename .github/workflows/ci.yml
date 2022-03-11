@@ -14,4 +14,5 @@ jobs:
       with:
         path: src/
         php_version: 8.1
+        error_format: github
         configuration: phpstan.neon
