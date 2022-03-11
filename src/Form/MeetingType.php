@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Meeting;
 use App\Repository\ScheduleRuleRepository;
 use DateTime;
+use DateTimeInterface;
 use Recurr\Recurrence;
 use Recurr\Transformer\ArrayTransformer;
 use Symfony\Component\Form\AbstractType;
@@ -24,14 +25,17 @@ class MeetingType extends AbstractType
 
         $dates = [];
         foreach ($scheduleRules as $scheduleRule) {
-            $rule = $scheduleRule->getRule();
-            $rule->setUntil(new DateTime('now + 14 days'));
-            $rule->setStartDate((new DateTime())->setTime(0, 0));
-            $transformer = new ArrayTransformer();
-            $dates += $transformer->transform($scheduleRule->getRule())->toArray();
+            if (($rule = $scheduleRule->getRule()) !== null) {
+                $rule->setUntil(new DateTime('now + 14 days'));
+                $rule->setStartDate((new DateTime())->setTime(0, 0));
+                $transformer = new ArrayTransformer();
+                /** @var Recurrence[] $recurrences */
+                $recurrences = $transformer->transform($rule)->toArray();
+                $dates += $recurrences;
+            }
         }
 
-        $dates = array_map(function (Recurrence $recurrence) {
+        $dates = array_map(function (Recurrence $recurrence): DateTimeInterface {
             return $recurrence->getStart();
         }, $dates);
 

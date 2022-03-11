@@ -13,6 +13,11 @@ class NotificationFactory
     {
     }
 
+    /**
+     * @param string[] $channels
+     * @param array<string, string|int|null> $subjectParameters
+     * @param array<string, string|int|null> $contentParameters
+     */
     public function createNotification(
         string $type,
         string $subject = '',
@@ -27,7 +32,7 @@ class NotificationFactory
 
         $notification = new $type($subject, $channels);
 
-        if (is_subclass_of($type, TranslatableNotificationInterface::class)) {
+        if ($notification instanceof TranslatableNotificationInterface) {
             $notification->setTranslator($this->translator);
             $notification->setSubjectParameters($subjectParameters);
             $notification->setContentParameters($contentParameters);

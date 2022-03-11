@@ -8,8 +8,10 @@ use App\Form\RegistrationType;
 use App\Notification\AttendeeNotification;
 use App\Service\Notification\NotificationFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +28,7 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager,
         NotifierInterface $notifier,
         NotificationFactory $notificationFactory
-    ) {
+    ): Response {
         $user = new User();
         $user->addRole(UserRole::ROLE_ATTENDEE);
 
@@ -36,6 +38,10 @@ class RegistrationController extends AbstractController
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             $entityManager->persist($user);
             $entityManager->flush();
+
+            if ($user->getEmail() === null) {
+                throw new LogicException('This code should never be reached');
+            }
 
             $notification = $notificationFactory->createNotification(
                 AttendeeNotification::class,
@@ -48,7 +54,13 @@ class RegistrationController extends AbstractController
 
             $notifier->send($notification, $recipient);
 
-            return $userAuthenticator->authenticateUser($user, $mainAuthenticator, $request);
+            $response = $userAuthenticator->authenticateUser($user, $mainAuthenticator, $request);
+
+            if ($response === null) {
+                return $this->redirectToRoute('login');
+            }
+
+            return $response;
         }
 
         return $this->renderForm('security/register.html.twig', ['registrationForm' => $registrationForm]);

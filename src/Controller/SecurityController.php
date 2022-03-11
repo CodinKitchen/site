@@ -11,6 +11,7 @@ use Exception;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +26,7 @@ class SecurityController extends AbstractController
         NotifierInterface $notifier,
         NotificationFactory $notificationFactory,
         Request $request
-    ) {
+    ): Response {
         $user = new User();
 
         $loginForm = $this->createForm(LoginType::class, $user);
@@ -41,6 +42,10 @@ class SecurityController extends AbstractController
                 );
 
                 return $this->redirectToRoute('register');
+            }
+
+            if ($user->getEmail() === null) {
+                throw new LogicException('This code should never be reached');
             }
 
             $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
@@ -70,13 +75,13 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/logout', name: 'logout', methods: ['GET'])]
-    public function logout()
+    public function logout(): void
     {
         throw new Exception('Don\'t forget to activate logout in security.yaml');
     }
 
     #[Route('/login_check', name: 'login_check')]
-    public function check()
+    public function check(): void
     {
         throw new LogicException('This code should never be reached');
     }

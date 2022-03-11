@@ -23,11 +23,14 @@ class User implements UserInterface
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private ?string $email;
 
+    /**
+     * @var string[] $roles
+     */
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     #[ORM\OneToMany(mappedBy: 'attendee', targetEntity: Meeting::class)]
-    private ?Collection $meetings;
+    private Collection $meetings;
 
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $firstname;
@@ -76,6 +79,9 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param string[] $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -93,15 +99,12 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection<int, Meetings>
-     */
     public function getMeetings(): Collection
     {
         return $this->meetings;
