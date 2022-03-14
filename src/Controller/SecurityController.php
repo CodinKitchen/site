@@ -27,13 +27,8 @@ class SecurityController extends AbstractController
         NotificationFactory $notificationFactory,
         Request $request
     ): Response {
-        $user = new User();
-
-        $loginForm = $this->createForm(LoginType::class, $user);
-        $loginForm->handleRequest($request);
-
-        if ($loginForm->isSubmitted() && $loginForm->isValid()) {
-            $user = $userRepository->findOneBy(['email' => $user->getEmail()]);
+        if ($request->isMethod('POST')) {
+            $user = $userRepository->findOneBy(['email' => $request->request->get('email')]);
 
             if ($user === null) {
                 $this->addFlash(
@@ -71,7 +66,7 @@ class SecurityController extends AbstractController
             return $this->render('security/login_link_sent.html.twig', ['email' => $user->getEmail()]);
         }
 
-        return $this->renderForm('security/login.html.twig', ['loginForm' => $loginForm]);
+        return $this->render('security/login.html.twig');
     }
 
     #[Route('/logout', name: 'logout', methods: ['GET'])]

@@ -1,10 +1,17 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
-<div class="mx-auto md:w-1/3">
-    {{ form_start(loginForm) }}
-        {{ form_rest(loginForm) }}
-        {% include "components/_button.html.twig" with {type: 'submit', label: 'Recevoir mon lien de connexion'} only %}
-    {{ form_end(loginForm) }}
-</div>
+	<div class="mx-auto md:w-1/3">
+		<form action="{{ path('login') }}" method="post">
+			<div class="mb-6">
+				<label class="block text-gray-800 required" for="login_email">Email</label>
+                <input type="email" id="login_email" name="email" required="required" class="w-full mt-1">
+            </div>
+			{% include "components/_button.html.twig" with {type: 'submit', label: 'Recevoir mon lien de connexion'} only %}
+		</form>
+		{# {{ form_start(loginForm) }}
+		        {{ form_rest(loginForm) }}
+		        {% include "components/_button.html.twig" with {type: 'submit', label: 'Recevoir mon lien de connexion'} only %}
+		    {{ form_end(loginForm) }} #}
+	</div>
 {% endblock %}
