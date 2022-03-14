@@ -6,8 +6,11 @@
 <h1 class="my-20 text-5xl font-bold text-center">Réservez votre session coaching !</h1>
 <div class="max-w-sm mx-auto">
     {{ form_start(meetingForm) }}
+        <div class="mb-6">
+            {{ form_errors(meetingForm) }}
+        </div>
         {{ component('meeting_slot_selection') }}
-        {{ form_widget(meetingForm.duration) }}
+        {{ form_row(meetingForm.duration) }}
         {% include "components/_button.html.twig" with {type: 'submit', label: 'Envoyer la demande >'} only %}
         <input type="hidden" name="meeting[_token]" value="{{ csrf_token('meeting') }}"/>
     {{ form_end(meetingForm, {render_rest: false}) }}

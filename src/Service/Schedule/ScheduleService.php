@@ -4,6 +4,7 @@ namespace App\Service\Schedule;
 
 use App\Repository\ScheduleRuleRepository;
 use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use Recurr\Recurrence;
 use Recurr\Transformer\ArrayTransformer;
@@ -37,7 +38,7 @@ class ScheduleService
         }
 
         $dates = array_map(function (Recurrence $recurrence): DateTimeInterface {
-            return $recurrence->getStart();
+            return DateTimeImmutable::createFromMutable($recurrence->getStart());
         }, $dates);
 
         sort($dates);

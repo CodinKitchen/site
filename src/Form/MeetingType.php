@@ -37,22 +37,27 @@ class MeetingType extends AbstractType
                 'input_format' => 'H:i'
             ])
             ->add('duration', ChoiceType::class, [
+                'label' => 'form.meeting.duration.label',
                 'choices' => ["1h" => 1, "2h" => 2],
             ])
-            ->addEventListener(FormEvents::POST_SUBMIT, [$this, 'mapDateAndTimeToTimeSlot'])
+            ->addEventListener(FormEvents::SUBMIT, [$this, 'mapDateAndTimeToTimeSlot'])
         ;
     }
 
     public function mapDateAndTimeToTimeSlot(FormEvent $formEvent): void
     {
         $form = $formEvent->getForm();
-        /** @var Meeting $meeting */
-        $meeting = $form->getData();
 
         $date = $form->get('date')->getData();
         $time = $form->get('time')->getData();
 
+        if (empty($date) || empty($time)) {
+            return;
+        }
+
         $timeSlot = DateTimeImmutable::createFromFormat('Y-m-d H:i', $date . ' ' . $time);
+        /** @var Meeting $meeting */
+        $meeting = $form->getData();
         $meeting->setTimeSlot($timeSlot);
     }
 
