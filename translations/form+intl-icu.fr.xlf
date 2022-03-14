@@ -10,6 +10,26 @@
                 <source>form.register.email.label</source>
                 <target>Votre email</target>
             </trans-unit>
+            <trans-unit id="form.meeting.date.label">
+                <source>form.meeting.date.label</source>
+                <target>Jour de la session</target>
+            </trans-unit>
+            <trans-unit id="form.meeting.date.placeholder">
+                <source>form.meeting.date.placeholder</source>
+                <target>-- Choisissez votre jour --</target>
+            </trans-unit>
+            <trans-unit id="form.meeting.time.label">
+                <source>form.meeting.time.label</source>
+                <target>Heure de la session</target>
+            </trans-unit>
+            <trans-unit id="form.meeting.time.placeholder">
+                <source>form.meeting.time.placeholder</source>
+                <target>-- Choisissez votre heure --</target>
+            </trans-unit>
+            <trans-unit id="form.meeting.duration.label">
+                <source>form.meeting.duration.label</source>
+                <target>Durée de la session</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

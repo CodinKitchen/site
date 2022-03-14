@@ -1,0 +1,23 @@
+{% trans_default_domain 'form' %}
+<div {{attributes}}>
+    <div class="mb-6">
+        <label class="block text-gray-800 required" for="meeting_date">{{ 'form.meeting.date.label'|trans }}</label>
+        <select class="w-full" name="meeting[date]" data-model="date" data-action="live#update">
+            <option value="" selected>{{ 'form.meeting.date.placeholder'|trans }}</option>
+        {% for date, slots in this.slotsByDate %}
+            <option value="{{date}}">{{ date }}</option>
+        {% endfor %}
+        </select>
+    </div>
+    {% if this.getAvailableSlots is not empty %}
+    <div class="mb-6">
+        <label class="block text-gray-800 required" for="meeting_time">{{ 'form.meeting.time.label'|trans }}</label>
+        <select class="w-full" name="meeting[time]">
+            <option value="">{{ 'form.meeting.time.placeholder'|trans }}</option>
+        {% for slot in this.getAvailableSlots %}
+            <option value="{{slot}}">{{ slot }}</option>
+        {% endfor %}
+        </select>
+    </div>
+    {% endif %}
+</div>

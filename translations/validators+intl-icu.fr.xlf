@@ -6,6 +6,10 @@
                 <source>error.email.unique</source>
                 <target>Cet email est déjà utilisé</target>
             </trans-unit>
+            <trans-unit id="error.meeting.timeSlot">
+                <source>error.meeting.timeSlot</source>
+                <target>Vous devez choisir une date et une heure.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
