@@ -1,0 +1,20 @@
+<div {{attributes}}>
+    <div class="mb-6">
+        <select class="w-full" name="meeting[date]" data-model="date" data-action="live#update">
+            <option value="" selected>-- Choisissez votre date --</option>
+        {% for date, slots in this.slotsByDate %}
+            <option value="{{date}}">{{ date }}</option>
+        {% endfor %}
+        </select>
+    </div>
+    {% if this.getAvailableSlots is not empty %}
+    <div class="mb-6">
+        <select class="w-full" name="meeting[time]">
+            <option value="">-- Choisissez votre heure --</option>
+        {% for slot in this.getAvailableSlots %}
+            <option value="{{slot}}">{{ slot }}</option>
+        {% endfor %}
+        </select>
+    </div>
+    {% endif %}
+</div>

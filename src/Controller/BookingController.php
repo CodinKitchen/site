@@ -9,6 +9,7 @@ use App\Form\MeetingType;
 use App\Notification\AttendeeNotification;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Service\Notification\NotificationFactory;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +24,8 @@ class BookingController extends AbstractController
     public function index(
         Request $request,
         NotifierInterface $notifier,
-        NotificationFactory $notificationFactory
+        NotificationFactory $notificationFactory,
+        EntityManagerInterface $entityManager
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -37,6 +39,10 @@ class BookingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $meeting = $form->getData();
+            $entityManager->persist($meeting);
+            $entityManager->flush();
+
             $notification = $notificationFactory->createNotification(
                 AttendeeNotification::class,
                 'notification.booking.request.subject',
@@ -60,10 +66,21 @@ class BookingController extends AbstractController
 
             // Send the notification to the recipient
             $notifier->send($notification, $recipient);
+
+            $this->addFlash(
+                'success',
+                sprintf(
+                    'J\'ai bien noté ta demande pour le %s à %s. Je te répond rapidement !',
+                    $meeting->getTimeSlot()?->format('d/m/Y'),
+                    $meeting->getTimeSlot()?->format('H:i')
+                )
+            );
+
+            return $this->render('booking/confirm.html.twig');
         }
 
         return $this->renderForm(
-            'book.html.twig',
+            '/booking/book.html.twig',
             [
                 'meetingForm' => $form,
             ]

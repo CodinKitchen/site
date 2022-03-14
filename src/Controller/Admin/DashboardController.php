@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Meeting;
 use App\Entity\ScheduleRule;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -27,5 +28,6 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Manage schedule', 'fa fa-calendar', ScheduleRule::class);
+        yield MenuItem::linkToCrud('Meetings', 'fa fa-calendar', Meeting::class);
     }
 }
