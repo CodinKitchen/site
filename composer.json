@@ -24,6 +24,7 @@
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.0.*",
         "symfony/mailer": "6.0.*",
+        "symfony/mailjet-mailer": "6.0.*",
         "symfony/maker-bundle": "^1.38",
         "symfony/messenger": "6.0.*",
         "symfony/monolog-bundle": "^3.7",
