@@ -4,6 +4,7 @@ namespace App\Validator\Meeting;
 
 use App\Service\Schedule\ScheduleService;
 use DateTimeImmutable;
+use Recurr\Exception\InvalidWeekday;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -15,7 +16,10 @@ class TimeSlotAvailabilityValidator extends ConstraintValidator
     {
     }
 
-    public function validate($value, Constraint $constraint)
+    /**
+     * @param mixed $value
+     */
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof TimeSlotAvailability) {
             throw new UnexpectedTypeException($constraint, TimeSlotAvailability::class);

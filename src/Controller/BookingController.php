@@ -39,6 +39,7 @@ class BookingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Meeting $meeting */
             $meeting = $form->getData();
             $entityManager->persist($meeting);
             $entityManager->flush();

@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Meeting;
-use App\Service\Schedule\ScheduleService;
 use DateTimeImmutable;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,10 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MeetingType extends AbstractType
 {
-    public function __construct(private ScheduleService $scheduleService)
-    {
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -56,6 +51,11 @@ class MeetingType extends AbstractType
         }
 
         $timeSlot = DateTimeImmutable::createFromFormat('Y-m-d H:i', $date . ' ' . $time);
+
+        if (!$timeSlot) {
+            return;
+        }
+
         /** @var Meeting $meeting */
         $meeting = $form->getData();
         $meeting->setTimeSlot($timeSlot);

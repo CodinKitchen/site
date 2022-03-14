@@ -38,7 +38,9 @@ class ScheduleService
         }
 
         $dates = array_map(function (Recurrence $recurrence): DateTimeInterface {
-            return DateTimeImmutable::createFromMutable($recurrence->getStart());
+            /** @var DateTime $dateStart */
+            $dateStart = $recurrence->getStart();
+            return DateTimeImmutable::createFromMutable($dateStart);
         }, $dates);
 
         sort($dates);

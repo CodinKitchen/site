@@ -13,7 +13,7 @@ class MeetingSlotSelectionComponent
     use DefaultActionTrait;
 
     /**
-     * @var array<string, string[]> $dates
+     * @var array<string, string[]> $slotsByDate
      */
     public array $slotsByDate;
 
