@@ -16,6 +16,7 @@
         "easycorp/easyadmin-bundle": "^4.0",
         "sensio/framework-extra-bundle": "^6.2",
         "simshaun/recurr": "^5.0",
+        "symfony/apache-pack": "^1.0",
         "symfony/console": "6.0.*",
         "symfony/debug-bundle": "6.0.*",
         "symfony/dotenv": "6.0.*",
