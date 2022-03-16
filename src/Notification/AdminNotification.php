@@ -21,7 +21,12 @@ class AdminNotification extends Notification implements EmailNotificationInterfa
             ->subject($this->getTranslator()->trans($this->getSubject(), $this->getSubjectParameters(), 'email'))
             ->content($this->getTranslator()->trans($this->getContent(), $this->getContentParameters(), 'email'))
             ->theme(self::THEME)
+            ->importance($this->getImportance())
         ;
+
+        if (($action = $this->getAction()) !== null) {
+            $email->action($this->getTranslator()->trans($action['action_text'], [], 'email'), $action['action_url']);
+        }
 
         return new EmailMessage($email);
     }

@@ -30,12 +30,12 @@
                     On se voit bientôt :)
                 </target>
             </trans-unit>
-            <trans-unit id="notification.booking.request.subject">
-                <source>notification.booking.request.subject</source>
+            <trans-unit id="notification.booking.request.attendee.subject">
+                <source>notification.booking.request.attendee.subject</source>
                 <target>J'ai bien reçu ta demande {firstname} !</target>
             </trans-unit>
-            <trans-unit id="notification.booking.request.content">
-                <source>notification.booking.request.content</source>
+            <trans-unit id="notification.booking.request.attendee.content">
+                <source>notification.booking.request.attendee.content</source>
                 <target>
                     Merci {firstname} pour ta demande de coaching !
 
@@ -43,6 +43,23 @@
 
                     Je te confirme aussi rapidement que possible :)
                 </target>
+            </trans-unit>
+            <trans-unit id="notification.booking.request.admin.subject">
+                <source>notification.booking.request.admin.subject</source>
+                <target>Nouvelle demande de coaching pour {firstname} !</target>
+            </trans-unit>
+            <trans-unit id="notification.booking.request.admin.content">
+                <source>notification.booking.request.admin.content</source>
+                <target>
+                    {firstname} viens d'envoyer une demande de coaching !
+
+                    Il souhaite faire une session le {date} à {time} pour {duration}h.
+                </target>
+            </trans-unit>
+
+            <trans-unit id="notification.booking.request.admin.action">
+                <source>notification.booking.request.admin.action</source>
+                <target>Gérer la demande</target>
             </trans-unit>
         </body>
     </file>

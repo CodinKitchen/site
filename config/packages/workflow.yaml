@@ -1,0 +1,32 @@
+framework:
+    workflows:
+        meeting:
+            type: state_machine
+            marking_store:
+                type: 'method'
+                property: 'status'
+            supports:
+                - App\Entity\Meeting
+            initial_marking: draft
+            places:
+                - draft
+                - pending
+                - confirmed
+                - canceled
+            transitions:
+                request:
+                    from: draft
+                    to: pending
+                confirm:
+                    from: pending
+                    to:   confirmed
+                cancel:
+                    from: [pending, confirmed]
+                    to:   canceled
+
+when@dev:
+    framework:
+        workflows:
+            meeting:
+                audit_trail:
+                    enabled: true

@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Enum\MeetingStatus;
 use App\Repository\MeetingRepository;
 use App\Validator\Meeting\TimeSlotAvailability;
 use DateTimeImmutable;
@@ -12,14 +11,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: MeetingRepository::class)]
 class Meeting
 {
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_CONFIRMED = 'confirmed';
+    public const STATUS_CANCELED = 'canceled';
+
+    public const ALLOWED_STATUSES = [
+        self::STATUS_DRAFT,
+        self::STATUS_CONFIRMED,
+        self::STATUS_CANCELED,
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $id;
 
-    #[ORM\Column(type: 'string', length: 10, enumType: MeetingStatus::class)]
+    #[ORM\Column(type: 'string', length: 10)]
     #[Assert\NotBlank]
-    private ?MeetingStatus $status;
+    private ?string $status;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\Choice([1,2])]
@@ -41,12 +50,15 @@ class Meeting
         return $this->id;
     }
 
-    public function getStatus(): ?MeetingStatus
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(MeetingStatus $status): self
+    /**
+     * @param array<mixed, mixed> $context
+     */
+    public function setStatus(string $status, array $context = []): self
     {
         $this->status = $status;
 

@@ -27,7 +27,7 @@ class SecurityController extends AbstractController
         NotificationFactory $notificationFactory,
         Request $request
     ): Response {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $request->request->has('email')) {
             $user = $userRepository->findOneBy(['email' => $request->request->get('email')]);
 
             if ($user === null) {
@@ -57,7 +57,7 @@ class SecurityController extends AbstractController
                 ],
             );
 
-            $notification->setAction('notification.login.link.content', $loginLinkDetails->getUrl());
+            $notification->setAction('notification.login.link.action', $loginLinkDetails->getUrl());
 
             $recipient = new Recipient($user->getEmail());
 

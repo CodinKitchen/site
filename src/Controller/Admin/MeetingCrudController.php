@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Enum\MeetingStatus;
 use App\Entity\Meeting;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -20,20 +19,9 @@ class MeetingCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $choiceField = ChoiceField::new('status')
-            ->setFormType(EnumType::class)
-            ->setFormTypeOption('class', MeetingStatus::class)
-            ->setChoices(MeetingStatus::cases());
-
-        if (in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL], true)) {
-            $choiceField->setChoices(array_reduce(
-                MeetingStatus::cases(),
-                static fn (array $choices, MeetingStatus $status) => $choices + [$status->name => $status->value],
-                [],
-            ));
-        }
         return [
-            $choiceField,
+            ChoiceField::new('status')
+                ->setChoices(Meeting::ALLOWED_STATUSES),
             DateField::new('timeSlot'),
             IntegerField::new('duration'),
         ];
