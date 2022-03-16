@@ -30,6 +30,10 @@
                 <source>form.meeting.duration.label</source>
                 <target>Durée de la session</target>
             </trans-unit>
+            <trans-unit id="form.meeting.note.label">
+                <source>form.meeting.note.label</source>
+                <target>Quel est votre projet ?</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

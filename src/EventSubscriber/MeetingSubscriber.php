@@ -36,7 +36,7 @@ class MeetingSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'workflow.meeting.transition.request' => [
+            'workflow.meeting.completed.request' => [
                 ['persistMeeting', 20],
                 ['onMeetingRequestAttendeeEmail', 10],
                 ['onMeetingRequestAdminEmail', 0],

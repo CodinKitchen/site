@@ -12,11 +12,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Meeting
 {
     public const STATUS_DRAFT = 'draft';
+    public const STATUS_PENDING = 'pending';
     public const STATUS_CONFIRMED = 'confirmed';
     public const STATUS_CANCELED = 'canceled';
 
     public const ALLOWED_STATUSES = [
         self::STATUS_DRAFT,
+        self::STATUS_PENDING,
         self::STATUS_CONFIRMED,
         self::STATUS_CANCELED,
     ];
@@ -44,6 +46,9 @@ class Meeting
     #[Assert\NotNull(message:'error.meeting.timeSlot')]
     #[TimeSlotAvailability()]
     private ?DateTimeImmutable $timeSlot;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $note;
 
     public function getId(): ?int
     {
@@ -97,6 +102,18 @@ class Meeting
     public function setTimeSlot(\DateTimeImmutable $timeSlot): self
     {
         $this->timeSlot = $timeSlot;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }

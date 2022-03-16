@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -34,6 +35,10 @@ class MeetingType extends AbstractType
             ->add('duration', ChoiceType::class, [
                 'label' => 'form.meeting.duration.label',
                 'choices' => ["1h" => 1, "2h" => 2],
+                ])
+            ->add('note', TextareaType::class, [
+                    'label' => 'form.meeting.note.label',
+                    'required' => false,
             ])
             ->addEventListener(FormEvents::SUBMIT, [$this, 'mapDateAndTimeToTimeSlot'])
         ;
