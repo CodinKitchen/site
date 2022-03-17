@@ -1,8 +1,8 @@
 {
-    "name": "symfony/skeleton",
+    "name": "codinkitchen/site",
     "type": "project",
-    "license": "MIT",
-    "description": "A minimal Symfony project recommended to create bare bones applications",
+    "license": "CC-BY-NC-SA-4.0",
+    "description": "CodinKitchen website",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
@@ -87,6 +87,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "compile": [
+            "doctrine:migrations:migrate -n"
         ]
     },
     "conflict": {
