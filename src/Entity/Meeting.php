@@ -48,7 +48,7 @@ class Meeting
     private ?DateTimeImmutable $timeSlot;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $note;
+    private ?string $note;
 
     public function getId(): ?int
     {
