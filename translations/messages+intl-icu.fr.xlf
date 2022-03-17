@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="flash.login.unknown.user">
+                <source>flash.login.unknown.user</source>
+                <target>On dirait qu'on ne se connait pas encore ! Comment tu t'appelles ? Moi c'est Gauthier ;)</target>
+            </trans-unit>
+            <trans-unit id="flash.meeting.request">
+                <source>flash.meeting.request</source>
+                <target>J'ai bien noté ta demande pour le {date} à {time}. Je te répond rapidement !</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

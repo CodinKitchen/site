@@ -34,14 +34,13 @@ class BookingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $meetingStateMachine->apply($meeting, 'request');
 
-            $this->addFlash(
-                'success',
-                sprintf(
-                    'J\'ai bien noté ta demande pour le %s à %s. Je te répond rapidement !',
-                    $meeting->getTimeSlot()?->format('d/m/Y'),
-                    $meeting->getTimeSlot()?->format('H:i')
-                )
-            );
+            $this->addFlash('success', [
+                    'message' => 'flash.meeting.request',
+                    'params' => [
+                        'date' => $meeting->getTimeSlot()?->format('d/m/Y'),
+                        'time' => $meeting->getTimeSlot()?->format('H:i')
+                    ],
+            ]);
 
             return $this->render('booking/confirm.html.twig');
         }

@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Form\LoginType;
 use App\Notification\AttendeeNotification;
 use App\Repository\UserRepository;
 use App\Service\Notification\NotificationFactory;
@@ -31,10 +29,7 @@ class SecurityController extends AbstractController
             $user = $userRepository->findOneBy(['email' => $request->request->get('email')]);
 
             if ($user === null) {
-                $this->addFlash(
-                    'notice',
-                    'On dirait qu\'on ne se connait pas encore ! Comment tu t\'appelles ? Moi c\'est Gauthier ;)'
-                );
+                $this->addFlash('notice', 'flash.login.unknown.user');
 
                 return $this->redirectToRoute('register');
             }
