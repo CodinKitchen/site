@@ -47,7 +47,13 @@ class RegistrationController extends AbstractController
                 AttendeeNotification::class,
                 'notification.register.subject',
                 'notification.register.content',
-                ['email']
+                ['email'],
+                [
+                    'firstname' => $user->getFirstname()
+                ],
+                [
+                    'firstname' => $user->getFirstname()
+                ],
             );
 
             $recipient = new Recipient($user->getEmail());
