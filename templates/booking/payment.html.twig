@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <form data-controller="payment" data-client-secret="{{ paymentClientSecret }}" data-return-url="{{ url('confirm') }}">
+      <div data-payment-target="stripeForm"></div>
+      <button data-payment-target="button">Pay now</button>
+      <div data-payment-target="message" class="hidden"></div>
+    </form>
+{% endblock %}

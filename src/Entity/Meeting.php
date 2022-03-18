@@ -12,12 +12,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Meeting
 {
     public const STATUS_DRAFT = 'draft';
+    public const STATUS_UNPAYED = 'unpayed';
     public const STATUS_PENDING = 'pending';
     public const STATUS_CONFIRMED = 'confirmed';
     public const STATUS_CANCELED = 'canceled';
 
     public const ALLOWED_STATUSES = [
         self::STATUS_DRAFT,
+        self::STATUS_UNPAYED,
         self::STATUS_PENDING,
         self::STATUS_CONFIRMED,
         self::STATUS_CANCELED,
@@ -49,6 +51,9 @@ class Meeting
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $note;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $paymentReference;
 
     public function getId(): ?int
     {
@@ -114,6 +119,18 @@ class Meeting
     public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getPaymentReference(): ?string
+    {
+        return $this->paymentReference;
+    }
+
+    public function setPaymentReference(?string $paymentReference): self
+    {
+        $this->paymentReference = $paymentReference;
 
         return $this;
     }

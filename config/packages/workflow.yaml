@@ -10,12 +10,16 @@ framework:
             initial_marking: draft
             places:
                 - draft
+                - unpayed
                 - pending
                 - confirmed
                 - canceled
             transitions:
                 request:
                     from: draft
+                    to: unpayed
+                pay:
+                    from: unpayed
                     to: pending
                 confirm:
                     from: pending

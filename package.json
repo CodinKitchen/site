@@ -20,7 +20,9 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@stripe/stripe-js": "^1.25.0",
         "autoprefixer": "^10.4.2",
+        "dotenv-webpack": "^7.1.0",
         "postcss": "^8.4.7",
         "tailwindcss": "^3.0.23"
     }
