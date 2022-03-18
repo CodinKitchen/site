@@ -11,6 +11,7 @@ use App\Service\Notification\NotificationFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Stripe\StripeClient;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\Notifier;
@@ -30,19 +31,39 @@ class MeetingSubscriber implements EventSubscriberInterface
         private NotificationFactory $notificationFactory,
         private Security $security,
         private AdminUrlGenerator $adminUrlGenerator,
+        private StripeClient $stripeClient,
     ) {
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            'workflow.meeting.completed.request' => 'persistMeeting',
+            'workflow.meeting.completed.request' => [
+                ['createPaymentIntent', 10],
+                ['persistMeeting', 10],
+            ],
             'workflow.meeting.completed.pay' => [
                 ['persistMeeting', 20],
                 ['onMeetingRequestAttendeeEmail', 10],
                 ['onMeetingRequestAdminEmail', 0],
             ]
         ];
+    }
+
+    public function createPaymentIntent(Event $event): void
+    {
+        /** @var Meeting $meeting */
+        $meeting = $event->getSubject();
+
+        $paymentIntent = $this->stripeClient->paymentIntents->create([
+            'amount' => 100000,
+            'currency' => 'eur',
+            'automatic_payment_methods' => [
+                'enabled' => true,
+            ],
+        ]);
+
+        $meeting->setPaymentReference($paymentIntent->id);
     }
 
     public function persistMeeting(Event $event): void

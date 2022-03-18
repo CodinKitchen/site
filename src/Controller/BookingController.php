@@ -17,10 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Workflow\WorkflowInterface;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class BookingController extends AbstractController
 {
     #[Route('/book', name: 'book')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function index(
         Request $request,
         WorkflowInterface $meetingStateMachine,
@@ -39,7 +39,7 @@ class BookingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $meetingStateMachine->apply($meeting, 'request');
 
-            return $this->redirectToRoute('payment', ['id' => $meeting->getId()]);
+            return $this->redirectToRoute('payment', ['paymentReference' => $meeting->getPaymentReference()]);
         }
 
         return $this->renderForm(
@@ -50,26 +50,20 @@ class BookingController extends AbstractController
         );
     }
 
-    #[Route('/payment/{id}', name: 'payment')]
+    #[Route('/payment/{paymentReference}', name: 'payment')]
     public function payment(
         Meeting $meeting,
         StripeClient $stripeClient,
-        EntityManagerInterface $entityManager
     ): Response {
-        if ($meeting->getStatus() !== Meeting::STATUS_UNPAYED) {
+        if ($meeting->getStatus() !== Meeting::STATUS_UNPAYED || $meeting->getAttendee() != $this->getUser()) {
             return $this->redirect('home');
         }
 
-        $paymentIntent = $stripeClient->paymentIntents->create([
-            'amount' => 100000,
-            'currency' => 'eur',
-            'automatic_payment_methods' => [
-                'enabled' => true,
-            ],
-        ]);
-
-        $meeting->setPaymentReference($paymentIntent->id);
-        $entityManager->flush();
+        try {
+            $paymentIntent = $stripeClient->paymentIntents->retrieve($meeting->getPaymentReference());
+        } catch (Exception $e) {
+            return $this->redirect('home');
+        }
 
         return $this->render('booking/payment.html.twig', [
             'paymentClientSecret' => $paymentIntent->client_secret
