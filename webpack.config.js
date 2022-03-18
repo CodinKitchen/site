@@ -68,7 +68,11 @@ Encore
     to: 'fonts/[path][name].[ext]',
   })
 
-  .addPlugin(new Dotenv({'path': '.env.local'}))
+  .addPlugin(new Dotenv({
+    path: './.env.local',
+    systemvars: true,
+    ignoreStub: true
+  }))
 
 // enables Sass/SCSS support
 //.enableSassLoader()
