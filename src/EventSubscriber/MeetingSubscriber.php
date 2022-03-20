@@ -64,6 +64,7 @@ class MeetingSubscriber implements EventSubscriberInterface
         ]);
 
         $meeting->setPaymentReference($paymentIntent->id);
+        $meeting->setPrice($paymentIntent->amount);
     }
 
     public function persistMeeting(Event $event): void

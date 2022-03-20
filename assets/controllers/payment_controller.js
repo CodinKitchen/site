@@ -2,7 +2,7 @@ import { Controller } from '@hotwired/stimulus';
 import {loadStripe} from '@stripe/stripe-js';
 
 export default class extends Controller {
-    static targets = ['stripeForm', 'button', 'message'];
+    static targets = ['stripeForm', 'button', 'message', 'spinner'];
 
     async connect() {
         this.element.addEventListener("submit", this.handleSubmit.bind(this));
@@ -39,8 +39,10 @@ export default class extends Controller {
     setLoading(isLoading) {
         if (isLoading) {
             this.buttonTarget.disabled = true;
+            this.spinnerTarget.classList.remove('invisible');
         } else {
             this.buttonTarget.disabled = false;
+            this.spinnerTarget.classList.add('invisible');
         }
     }
 

@@ -10,6 +10,10 @@
                 <source>flash.meeting.request</source>
                 <target>J'ai bien noté ta demande pour le {date} à {time}. Je te répond rapidement !</target>
             </trans-unit>
+            <trans-unit id="booking.meeting.payment.label">
+                <source>booking.meeting.payment.label</source>
+                <target>Session coaching le {date} à {time} pour {duration}</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -8,6 +8,7 @@ use App\Form\MeetingType;
 use App\Repository\MeetingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use LogicException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Stripe\PaymentIntent;
 use Stripe\StripeClient;
@@ -60,13 +61,18 @@ class BookingController extends AbstractController
         }
 
         try {
+            if ($meeting->getPaymentReference() === null) {
+                throw new LogicException('PaymentReference should not be null');
+            }
+
             $paymentIntent = $stripeClient->paymentIntents->retrieve($meeting->getPaymentReference());
         } catch (Exception $e) {
             return $this->redirect('home');
         }
 
         return $this->render('booking/payment.html.twig', [
-            'paymentClientSecret' => $paymentIntent->client_secret
+            'meeting' => $meeting,
+            'paymentIntent' => $paymentIntent
         ]);
     }
 
@@ -104,6 +110,9 @@ class BookingController extends AbstractController
             ],
         ]);
 
-        return $this->render('booking/confirm.html.twig');
+        $response = $this->render('booking/confirm.html.twig');
+        $response->headers->set('Refresh', sprintf('%d; url=%s', 5, $this->generateUrl('home')));
+
+        return $response;
     }
 }
