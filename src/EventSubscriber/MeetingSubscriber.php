@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Stripe\StripeClient;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\Notifier;
@@ -32,6 +33,7 @@ class MeetingSubscriber implements EventSubscriberInterface
         private Security $security,
         private AdminUrlGenerator $adminUrlGenerator,
         private StripeClient $stripeClient,
+        private ParameterBagInterface $parameters,
     ) {
     }
 
@@ -56,7 +58,7 @@ class MeetingSubscriber implements EventSubscriberInterface
         $meeting = $event->getSubject();
 
         $paymentIntent = $this->stripeClient->paymentIntents->create([
-            'amount' => 100000,
+            'amount' => $this->parameters->get('meeting.price'),
             'currency' => 'eur',
             'automatic_payment_methods' => [
                 'enabled' => true,

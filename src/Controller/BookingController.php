@@ -21,6 +21,8 @@ use Symfony\Component\Workflow\WorkflowInterface;
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
 class BookingController extends AbstractController
 {
+    private const CONFIRM_REDIRECT_TIMING = 10;
+
     #[Route('/book', name: 'book')]
     public function index(
         Request $request,
@@ -111,7 +113,7 @@ class BookingController extends AbstractController
         ]);
 
         $response = $this->render('booking/confirm.html.twig');
-        $response->headers->set('Refresh', sprintf('%d; url=%s', 5, $this->generateUrl('home')));
+        $response->headers->set('Refresh', sprintf('%d; url=%s', self::CONFIRM_REDIRECT_TIMING, $this->generateUrl('home')));
 
         return $response;
     }
