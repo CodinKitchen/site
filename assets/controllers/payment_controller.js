@@ -1,39 +1,65 @@
-import { Controller } from '@hotwired/stimulus';
+import {Controller} from '@hotwired/stimulus';
 import {loadStripe} from '@stripe/stripe-js';
 
 export default class extends Controller {
-    static targets = ['stripeForm', 'button', 'message', 'spinner'];
+    static targets = ['stripeForm', 'button', 'message', 'spinner', 'paymentMethod'];
 
     async connect() {
         this.element.addEventListener("submit", this.handleSubmit.bind(this));
 
         this.stripe = await loadStripe(process.env.STRIPE_PUBLIC_KEY);
 
-        this.elements = this.stripe.elements({clientSecret: this.element.dataset.clientSecret});
+        const elements = this.stripe.elements();
 
-        const paymentElement = this.elements.create("payment");
-        paymentElement.mount(this.stripeFormTarget);
+        const stripeStyle = {
+            base: {
+                color: "#32325d",
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: "antialiased",
+                fontSize: "16px",
+                "::placeholder": {
+                    color: "#6d7882"
+                }
+            },
+            invalid: {
+                color: "#fa755a",
+                iconColor: "#fa755a"
+            },
+        };
+
+        this.paymentElement = elements.create("card", {
+            style: stripeStyle
+        });
+        this.paymentElement.mount(this.stripeFormTarget);
     }
 
     async handleSubmit(e) {
         e.preventDefault();
         this.setLoading(true);
-      
-        const elements = this.elements;
-        const { error } = await this.stripe.confirmPayment({
-          elements,
-          confirmParams: {
-            return_url: this.element.dataset.returnUrl,
-          },
+
+        const paymentElement = this.paymentElement;
+        const result = await this.stripe.createPaymentMethod({
+            type: 'card',
+            card: paymentElement
         });
-      
-        if (error.type === "card_error" || error.type === "validation_error") {
-            this.showMessage(error.message);
-        } else {
-            this.showMessage("An unexpected error occured.");
+
+        if (result.error) {
+            if (result.error.type === "card_error" || error.type === "validation_error") {
+                this.showMessage(error.message);
+                this.setLoading(false);
+            } else {
+                this.showMessage("An unexpected error occured.");
+                this.setLoading(false);
+            }
+
+            return;
         }
-      
+
+        this.paymentMethodTarget.value = result.paymentMethod.id;
+        
         this.setLoading(false);
+        
+        e.target.submit();
     }
 
     setLoading(isLoading) {
@@ -48,13 +74,13 @@ export default class extends Controller {
 
     showMessage(messageText) {
         const messageContainer = this.messageTarget;
-      
+
         messageContainer.classList.remove("hidden");
         messageContainer.textContent = messageText;
-      
+
         setTimeout(function () {
-          messageContainer.classList.add("hidden");
-          messageText.textContent = "";
+            messageContainer.classList.add("hidden");
+            messageText.textContent = "";
         }, 4000);
     }
 }

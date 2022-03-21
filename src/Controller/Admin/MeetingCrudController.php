@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -25,7 +26,11 @@ class MeetingCrudController extends AbstractCrudController
             DateField::new('timeSlot'),
             IntegerField::new('duration'),
             TextareaField::new('note'),
-            TextField::new('paymentReference'),
+            MoneyField::new('price')
+                ->setStoredAsCents()
+                ->setCurrency('EUR')
+                ->setDisabled(),
+            TextField::new('paymentReference')->setDisabled(),
         ];
     }
 }

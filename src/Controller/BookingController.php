@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Dto\MeetingRequestDto;
 use App\Entity\Meeting;
 use App\Entity\User;
-use App\Form\MeetingType;
+use App\Form\MeetingRequestType;
 use App\Repository\MeetingRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use LogicException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -28,19 +28,19 @@ class BookingController extends AbstractController
         Request $request,
         WorkflowInterface $meetingStateMachine,
     ): Response {
-        /** @var User $user */
-        $user = $this->getUser();
-
-        $meeting = new Meeting();
-        $meeting->setStatus(Meeting::STATUS_DRAFT);
-        $meeting->setAttendee($user);
-
-        $form = $this->createForm(MeetingType::class, $meeting);
+        $meetingRequest = new MeetingRequestDto();
+        $form = $this->createForm(MeetingRequestType::class, $meetingRequest);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $meetingStateMachine->apply($meeting, 'request');
+            /** @var User $user */
+            $user = $this->getUser();
+
+            $meeting = $meetingRequest->toMeeting();
+            $meeting->setStatus(Meeting::STATUS_DRAFT);
+            $meeting->setAttendee($user);
+            $meetingStateMachine->apply($meeting, 'request', ['paymentMethod' => $meetingRequest->getPaymentMethod()]);
 
             return $this->redirectToRoute('payment', ['paymentReference' => $meeting->getPaymentReference()]);
         }

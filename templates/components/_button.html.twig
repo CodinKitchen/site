@@ -5,9 +5,9 @@
 <div class="flex justify-center mt-5 sm:mt-8">
     <div class="rounded-md shadow">
 {% if link is defined %}
-	<a href="{{ link }}" class="{{ classes }}">{{ label }}</a>
+	<a href="{{ link }}" class="{{ classes }}" {{ attr|raw }}>{{ label }}</a>
 {% elseif type == 'submit' %}
-	<input type="submit" class="{{ classes }}" value="{{ label }}">
+	<input type="submit" class="{{ classes }}" value="{{ label }}" {{ attr|raw }}>
 {% else  %}
 	<button class="{{ classes }}" {{ attr|raw }}>{{ label }}</button>
 {% endif %}

@@ -12,7 +12,7 @@
             </trans-unit>
             <trans-unit id="booking.meeting.payment.label">
                 <source>booking.meeting.payment.label</source>
-                <target>Session coaching le {date} à {time} pour {duration}</target>
+                <target>Session coaching le {date} à {time} pour {duration}h</target>
             </trans-unit>
         </body>
     </file>

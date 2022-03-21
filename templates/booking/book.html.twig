@@ -1,19 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CodinKitchen | Réservation{% endblock %}
+{% block title %}CodinKitchen | Réservation
+{% endblock %}
 
 {% block content %}
-<h1 class="my-20 text-5xl font-bold text-center">Réservez votre session coaching !</h1>
-<div class="max-w-sm mx-auto">
-    {{ form_start(meetingForm) }}
-        <div class="mb-6">
-            {{ form_errors(meetingForm) }}
+	<h1 class="my-20 text-5xl font-bold text-center">Réservez votre session coaching !</h1>
+	<div class="max-w-xl mx-auto" data-controller="payment">
+		{{ form_start(meetingForm) }}
+		<div class="mb-6">
+			{{ form_errors(meetingForm) }}
+		</div>
+        <div class="max-w-md mx-auto">
+            {{ component('meeting_slot_selection') }}
+            {{ form_row(meetingForm.duration) }}
+            {{ form_row(meetingForm.note) }}
         </div>
-        {{ component('meeting_slot_selection') }}
-        {{ form_row(meetingForm.duration) }}
-        {{ form_row(meetingForm.note) }}
-        {% include "components/_button.html.twig" with {type: 'submit', label: 'Envoyer la demande >'} only %}
-        <input type="hidden" name="meeting[_token]" value="{{ csrf_token('meeting') }}"/>
-    {{ form_end(meetingForm, {render_rest: false}) }}
-</div>
+        <div class="w-full p-8 my-4 rounded-lg shadow-md bg-slate-100">
+            <div class="flex items-center mb-4">
+                <h2 class="text-lg">Informations de paiement</h2>
+            </div>
+            {% include "components/_flash_message.html.twig" with {message: 'Votre paiement sera débitée uniquement après confirmation de la disponibilité', width: 'w-full'} only %}
+            <div class="w-full">
+                <div data-payment-target="stripeForm"></div>
+                <div class="mx-auto mt-5 w-28">
+                    <svg data-payment-target="spinner" class="invisible ml-12 text-teal-500 w-7 h-7 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
+                <div data-payment-target="message" class="hidden"></div>
+            </div>
+        </div>
+		{% include "components/_button.html.twig" with {type: 'submit', label: 'Envoyer la demande >', attr: 'data-payment-target="button"'} only %}
+		{{ form_row(meetingForm.paymentMethod) }}
+        <input type="hidden" name="meeting_request[_token]" value="{{ csrf_token('meeting_request') }}"/>
+		{{ form_end(meetingForm, {render_rest: false}) }}
+	</div>
 {% endblock %}

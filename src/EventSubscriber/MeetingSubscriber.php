@@ -60,9 +60,8 @@ class MeetingSubscriber implements EventSubscriberInterface
         $paymentIntent = $this->stripeClient->paymentIntents->create([
             'amount' => $this->parameters->get('meeting.price'),
             'currency' => 'eur',
-            'automatic_payment_methods' => [
-                'enabled' => true,
-            ],
+            'confirmation_method' => 'manual',
+            'payment_method' => $event->getContext()['paymentMethod'] ?? null,
         ]);
 
         $meeting->setPaymentReference($paymentIntent->id);
