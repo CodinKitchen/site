@@ -20,7 +20,7 @@ class RruleFieldConfigurator implements FieldConfiguratorInterface
     public function configure(FieldDto $field, EntityDto $entityDto, AdminContext $context): void
     {
         if (!$field->getValue() instanceof Rule) {
-            throw new InvalidArgumentException('This field must me used with a Recurr\Rule instance');
+            throw new InvalidArgumentException('This field must be used with a Recurr\Rule instance');
         }
 
         $field->setValue($field->getValue()->getString());

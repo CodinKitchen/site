@@ -30,7 +30,6 @@ class BookingController extends AbstractController
     ): Response {
         $meetingRequest = new MeetingRequestDto();
         $form = $this->createForm(MeetingRequestType::class, $meetingRequest);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -38,7 +37,6 @@ class BookingController extends AbstractController
             $user = $this->getUser();
 
             $meeting = $meetingRequest->toMeeting();
-            $meeting->setStatus(Meeting::STATUS_DRAFT);
             $meeting->setAttendee($user);
             $meetingStateMachine->apply($meeting, 'request', ['paymentMethod' => $meetingRequest->getPaymentMethod()]);
 
