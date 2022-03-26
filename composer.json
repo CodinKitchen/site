@@ -31,6 +31,7 @@
         "symfony/messenger": "6.0.*",
         "symfony/monolog-bundle": "^3.7",
         "symfony/notifier": "6.0.*",
+        "symfony/panther": "^2.0",
         "symfony/proxy-manager-bridge": "6.0.*",
         "symfony/runtime": "6.0.*",
         "symfony/security-bundle": "6.0.*",
@@ -103,9 +104,16 @@
         }
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^6.7",
+        "dbrekelmans/bdi": "^1.0",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.4",
         "phpstan/phpstan-doctrine": "^1.2",
+        "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "6.0.*",
+        "symfony/css-selector": "6.0.*",
+        "symfony/phpunit-bridge": "^6.0",
         "symfony/stopwatch": "6.0.*",
         "symfony/var-dumper": "6.0.*"
     }
