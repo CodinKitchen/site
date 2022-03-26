@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Meeting;
+use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -17,7 +18,9 @@ class MeetingFixtures extends Fixture implements DependentFixtureInterface
         $meeting->setNote('Test metting');
         $meeting->setStatus(Meeting::STATUS_CONFIRMED);
         $meeting->setTimeSlot(new DateTimeImmutable());
-        $meeting->setAttendee($this->getReference('attendee'));
+        /** @var User $attendee */
+        $attendee = $this->getReference('attendee');
+        $meeting->setAttendee($attendee);
         $manager->persist($meeting);
 
         $manager->flush();
