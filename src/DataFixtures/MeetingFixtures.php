@@ -16,6 +16,7 @@ class MeetingFixtures extends Fixture implements DependentFixtureInterface
         $meeting = new Meeting();
         $meeting->setDuration(1);
         $meeting->setNote('Test metting');
+        $meeting->setPrice(4000);
         $meeting->setStatus(Meeting::STATUS_CONFIRMED);
         $meeting->setTimeSlot(new DateTimeImmutable());
         /** @var User $attendee */

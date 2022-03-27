@@ -32,7 +32,7 @@ class Meeting
 
     #[ORM\Column(type: 'string', length: 10)]
     #[Assert\NotBlank]
-    private ?string $status;
+    private ?string $status = null;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\Choice([1,2])]

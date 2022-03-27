@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Meeting;
 use App\Entity\ScheduleRule;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -22,6 +23,11 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('App');
+    }
+
+    public function configureAssets(): Assets
+    {
+        return Assets::new()->addCssFile('build/admin.css');
     }
 
     public function configureMenuItems(): iterable

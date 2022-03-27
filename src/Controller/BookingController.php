@@ -6,9 +6,7 @@ use App\Dto\MeetingRequestDto;
 use App\Entity\Meeting;
 use App\Entity\User;
 use App\Form\MeetingRequestType;
-use App\Repository\MeetingRepository;
 use Exception;
-use LogicException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Stripe\PaymentIntent;
 use Stripe\StripeClient;
@@ -38,9 +36,12 @@ class BookingController extends AbstractController
 
             $meeting = $meetingRequest->toMeeting();
             $meeting->setAttendee($user);
+            /** @var int $price */
+            $price = $this->getParameter('meeting.price');
+            $meeting->setPrice($price);
             $meetingStateMachine->apply($meeting, 'request', ['paymentMethod' => $meetingRequest->getPaymentMethod()]);
 
-            return $this->redirectToRoute('payment', ['paymentReference' => $meeting->getPaymentReference()]);
+            return $this->redirectToRoute('confirm', ['paymentReference' => $meeting->getPaymentReference()]);
         }
 
         return $this->renderForm(
@@ -51,56 +52,27 @@ class BookingController extends AbstractController
         );
     }
 
-    #[Route('/payment/{paymentReference}', name: 'payment')]
-    public function payment(
+    #[Route('/confirm/{paymentReference}', name: 'confirm')]
+    public function confirm(
         Meeting $meeting,
         StripeClient $stripeClient,
-    ): Response {
-        if ($meeting->getStatus() !== Meeting::STATUS_UNPAYED || $meeting->getAttendee() != $this->getUser()) {
-            return $this->redirect('home');
-        }
-
-        try {
-            if ($meeting->getPaymentReference() === null) {
-                throw new LogicException('PaymentReference should not be null');
-            }
-
-            $paymentIntent = $stripeClient->paymentIntents->retrieve($meeting->getPaymentReference());
-        } catch (Exception $e) {
-            return $this->redirect('home');
-        }
-
-        return $this->render('booking/payment.html.twig', [
-            'meeting' => $meeting,
-            'paymentIntent' => $paymentIntent
-        ]);
-    }
-
-    #[Route('/confirm', name: 'confirm')]
-    public function confirm(
-        Request $request,
-        StripeClient $stripeClient,
-        MeetingRepository $meetingRepository,
         WorkflowInterface $meetingStateMachine,
     ): Response {
-        /** @var string $paymentIntent */
-        $paymentIntent = $request->query->get('payment_intent');
+        if ($meeting->getStatus() !== Meeting::STATUS_UNPAYED) {
+            return $this->redirectToRoute('home');
+        }
+
         try {
-            $paymentIntent = $stripeClient->paymentIntents->retrieve($paymentIntent);
+            $paymentIntent = $stripeClient->paymentIntents->retrieve($meeting->getPaymentReference());
         } catch (Exception $e) {
             $paymentIntent = null;
         }
-
+        dd($paymentIntent);
         if ($paymentIntent === null || $paymentIntent->status !== PaymentIntent::STATUS_SUCCEEDED) {
             return $this->redirectToRoute('home');
         }
 
-        $meeting = $meetingRepository->findOneBy(['paymentReference' => $paymentIntent->id]);
-        if ($meeting === null || $meeting->getStatus() !== Meeting::STATUS_UNPAYED) {
-            return $this->redirectToRoute('home');
-        }
-
-        $meetingStateMachine->apply($meeting, 'pay');
+        $meetingStateMachine->apply($meeting, 'prepay');
 
         $this->addFlash('success', [
             'message' => 'flash.meeting.request',
