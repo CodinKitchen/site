@@ -43,18 +43,18 @@ class MeetingSubscriber implements EventSubscriberInterface
             ],
             'workflow.meeting.completed.prepay' => [
                 ['persistMeeting', 20],
-                ['onMeetingRequestAttendeeEmail', 10],
-                ['onMeetingRequestAdminEmail', 0],
+                ['requestAttendeeEmail', 10],
+                ['requestAdminEmail', 0],
             ],
             'workflow.meeting.completed.confirm' => [
-                ['onMeetingConfirmedCapture', 30],
+                ['capturePaymentIntent', 30],
                 ['persistMeeting', 20],
-                ['onMeetingConfirmedAttendeeEmail', 10],
+                ['confirmedAttendeeEmail', 10],
             ],
             'workflow.meeting.completed.cancel' => [
-                ['onMeetingCanceledRefund', 30],
+                ['refund', 30],
                 ['persistMeeting', 20],
-                ['onMeetingCanceledAttendeeEmail', 10],
+                ['canceledAttendeeEmail', 10],
             ],
         ];
     }
@@ -67,9 +67,10 @@ class MeetingSubscriber implements EventSubscriberInterface
         $paymentIntent = $this->stripeClient->paymentIntents->create([
             'amount' => $meeting->getPrice(),
             'currency' => 'eur',
-            'confirmation_method' => 'manual',
+            'capture_method' => 'manual',
             'payment_method' => $event->getContext()['paymentMethod'] ?? null,
-            'confirm' => true,
+            'payment_method_types' => ['card'],
+            'confirm' => true
         ]);
 
         $meeting->setPaymentReference($paymentIntent->id);
@@ -83,7 +84,7 @@ class MeetingSubscriber implements EventSubscriberInterface
         $this->entityManager->flush();
     }
 
-    public function onMeetingRequestAttendeeEmail(Event $event): void
+    public function requestAttendeeEmail(Event $event): void
     {
         /** @var Meeting $meeting */
         $meeting = $event->getSubject();
@@ -114,7 +115,7 @@ class MeetingSubscriber implements EventSubscriberInterface
         $this->notifier->send($notification, $recipient);
     }
 
-    public function onMeetingRequestAdminEmail(Event $event): void
+    public function requestAdminEmail(Event $event): void
     {
         /** @var Meeting $meeting */
         $meeting = $event->getSubject();
@@ -152,7 +153,7 @@ class MeetingSubscriber implements EventSubscriberInterface
         $this->notifier->send($notification, ...$this->notifier->getAdminRecipients());
     }
 
-    public function onMeetingConfirmedCapture(Event $event): void
+    public function capturePaymentIntent(Event $event): void
     {
         /** @var Meeting $meeting */
         $meeting = $event->getSubject();
@@ -165,7 +166,7 @@ class MeetingSubscriber implements EventSubscriberInterface
         $paymentIntent->capture();
     }
 
-    public function onMeetingConfirmedAttendeeEmail(Event $event): void
+    public function confirmedAttendeeEmail(Event $event): void
     {
         /** @var Meeting $meeting */
         $meeting = $event->getSubject();
@@ -196,7 +197,7 @@ class MeetingSubscriber implements EventSubscriberInterface
         $this->notifier->send($notification, $recipient);
     }
 
-    public function onMeetingCanceledRefund(Event $event): void
+    public function refund(Event $event): void
     {
         /** @var Meeting $meeting */
         $meeting = $event->getSubject();
@@ -216,7 +217,7 @@ class MeetingSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function onMeetingCanceledAttendeeEmail(Event $event): void
+    public function canceledAttendeeEmail(Event $event): void
     {
         /** @var Meeting $meeting */
         $meeting = $event->getSubject();

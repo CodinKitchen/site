@@ -63,12 +63,14 @@ class BookingController extends AbstractController
         }
 
         try {
-            $paymentIntent = $stripeClient->paymentIntents->retrieve($meeting->getPaymentReference());
+            /** @var string $paymentReference */
+            $paymentReference = $meeting->getPaymentReference();
+            $paymentIntent = $stripeClient->paymentIntents->retrieve($paymentReference);
         } catch (Exception $e) {
             $paymentIntent = null;
         }
-        dd($paymentIntent);
-        if ($paymentIntent === null || $paymentIntent->status !== PaymentIntent::STATUS_SUCCEEDED) {
+
+        if ($paymentIntent === null || $paymentIntent->status !== PaymentIntent::STATUS_REQUIRES_CAPTURE) {
             return $this->redirectToRoute('home');
         }
 
