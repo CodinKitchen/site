@@ -17,6 +17,7 @@ RUN apk add --no-cache \
 		file \
 		gettext \
 		git \
+		graphviz \
 	;
 
 ARG APCU_VERSION=5.1.21

@@ -2,6 +2,7 @@
 
 namespace App\Validator\Meeting;
 
+use App\Dto\MeetingRequestDto;
 use App\Service\Schedule\ScheduleService;
 use DateTimeImmutable;
 use Recurr\Exception\InvalidWeekday;
@@ -25,16 +26,21 @@ class TimeSlotAvailabilityValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, TimeSlotAvailability::class);
         }
 
-        if (null === $value) {
-            return;
+        if (!$value instanceof MeetingRequestDto) {
+            throw new UnexpectedValueException($value, 'MeetingRequestDto');
         }
 
-        if (!$value instanceof DateTimeImmutable) {
-            throw new UnexpectedValueException($value, 'DateTimeImmutable');
+        if ($value->getDate() === null || $value->getTime() === null) {
+            $this->context->buildViolation($constraint->slotNotNull)
+                ->addViolation();
+                return;
         }
 
-        if (!in_array($value, $this->scheduleService->getNextBookingSlots())) {
-            $this->context->buildViolation($constraint->message)
+        $timeSlot = $value->getDate();
+        $timeSlot = $timeSlot->setTime((int) $value->getTime()->format('H'), (int) $value->getTime()->format('i'));
+
+        if (!in_array($timeSlot, $this->scheduleService->getNextBookingSlots())) {
+            $this->context->buildViolation($constraint->slotNotAvailable)
                 ->addViolation();
         }
     }

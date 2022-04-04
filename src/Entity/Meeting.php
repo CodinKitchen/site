@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\MeetingRepository;
-use App\Validator\Meeting\TimeSlotAvailability;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,12 +11,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Meeting
 {
     public const STATUS_DRAFT = 'draft';
+    public const STATUS_UNPAYED = 'unpayed';
     public const STATUS_PENDING = 'pending';
     public const STATUS_CONFIRMED = 'confirmed';
     public const STATUS_CANCELED = 'canceled';
 
     public const ALLOWED_STATUSES = [
         self::STATUS_DRAFT,
+        self::STATUS_UNPAYED,
         self::STATUS_PENDING,
         self::STATUS_CONFIRMED,
         self::STATUS_CANCELED,
@@ -30,7 +31,7 @@ class Meeting
 
     #[ORM\Column(type: 'string', length: 10)]
     #[Assert\NotBlank]
-    private ?string $status;
+    private ?string $status = null;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\Choice([1,2])]
@@ -44,11 +45,16 @@ class Meeting
 
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\NotNull(message:'error.meeting.timeSlot')]
-    #[TimeSlotAvailability()]
     private ?DateTimeImmutable $timeSlot;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $note;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $paymentReference;
+
+    #[ORM\Column(type: 'integer')]
+    private ?int $price;
 
     public function getId(): ?int
     {
@@ -114,6 +120,30 @@ class Meeting
     public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getPaymentReference(): ?string
+    {
+        return $this->paymentReference;
+    }
+
+    public function setPaymentReference(?string $paymentReference): self
+    {
+        $this->paymentReference = $paymentReference;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

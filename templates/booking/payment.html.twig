@@ -1,0 +1,42 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+<div class="w-full mx-auto md:w-1/2">
+	<div class="mb-20 overflow-auto bg-teal-500 rounded-lg">
+		<div class="my-8 overflow-hidden">
+			<table class="w-full text-sm text-center rounded-md table-fixed">
+				<thead class="text-lg font-bold text-white bg-teal-500">
+					<tr>
+						<th class="p-4 pt-0 pb-3 pl-8 border-b">Produit</th>
+						<th class="p-4 pt-0 pb-3 pr-8 border-b">Prix TTC</th>
+					</tr>
+				</thead>
+				<tbody class="bg-white">
+					<tr>
+						<td class="p-4 pl-8 text-left border-b border-slate-100 text-slate-500">{{ 'booking.meeting.payment.label'|trans({date: meeting.timeSlot|date("d/m/Y"), time: meeting.timeSlot|date("H:i"), duration: meeting.duration}) }}</td>
+						<td class="p-4 pr-8 border-b border-slate-100 text-slate-500">{{ (meeting.price/100)|format_currency('EUR') }}</td>
+					</tr>
+				</tbody>
+				<tfoot class="text-lg font-bold text-white bg-teal-500">
+					<tr>
+						<th scope="row" class="pt-4">Total</th>
+						<td class="pt-4">{{ (paymentIntent.amount/100)|format_currency('EUR') }}</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+
+  <form data-controller="payment" data-client-secret="{{ paymentIntent.client_secret }}" data-return-url="{{ url('confirm') }}">
+    <div data-payment-target="stripeForm"></div>
+    <div class="mx-auto mt-5 w-28">
+      <svg data-payment-target="spinner" class="invisible ml-12 text-teal-500 w-7 h-7 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </div>
+    {% include 'components/_button.html.twig' with {label: 'Régler maintenant', attr: 'data-payment-target="button"'} only %}
+    <div data-payment-target="message" class="hidden"></div>
+  </form>
+</div>
+{% endblock %}

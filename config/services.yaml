@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    meeting.price: '%env(MEETING_PRICE)%'
 
 services:
     # default configuration for services in *this* file
@@ -28,3 +29,8 @@ services:
     App\Form\Extension\TranslationExtension:
         tags: 
             - {name: 'form.type_extension', priority: 10}
+
+    Stripe\StripeClient:
+        class: Stripe\StripeClient
+        arguments:
+            - {api_key: '%env(STRIPE_PRIVATE_KEY)%'}

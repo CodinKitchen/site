@@ -56,10 +56,37 @@
                     Il souhaite faire une session le {date} à {time} pour {duration}h.
                 </target>
             </trans-unit>
-
             <trans-unit id="notification.booking.request.admin.action">
                 <source>notification.booking.request.admin.action</source>
                 <target>Gérer la demande</target>
+            </trans-unit>
+            <trans-unit id="notification.booking.confirmed.attendee.subject">
+                <source>notification.booking.confirmed.attendee.subject</source>
+                <target>Nouvelle demande de coaching pour {firstname} !</target>
+            </trans-unit>
+            <trans-unit id="notification.booking.confirmed.attendee.content">
+                <source>notification.booking.confirmed.attendee.content</source>
+                <target>
+                    Bonjour {firstname} !
+
+                    Je confirme avec plaisir ta demande de coaching le {date} à {time} pour {duration}h.
+
+                    À très bientôt :)
+                </target>
+            </trans-unit>
+            <trans-unit id="notification.booking.canceled.attendee.subject">
+                <source>notification.booking.canceled.attendee.subject</source>
+                <target>Nouvelle demande de coaching pour {firstname} !</target>
+            </trans-unit>
+            <trans-unit id="notification.booking.canceled.attendee.content">
+                <source>notification.booking.canceled.attendee.content</source>
+                <target>
+                    Bonjour {firstname} !
+
+                    Dommage, mais il semble que notre session du {date} à {time} pour {duration}h ne pourra pas se faire. Si tu as déjà payé quelque chose, tu seras remboursé !
+
+                    e n'est que partie remise :)
+                </target>
             </trans-unit>
         </body>
     </file>

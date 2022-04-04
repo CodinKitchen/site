@@ -13,7 +13,7 @@
         {{ form_row(meetingForm.duration) }}
         {{ form_row(meetingForm.note) }}
         {% include "components/_button.html.twig" with {type: 'submit', label: 'Envoyer la demande >'} only %}
-        <input type="hidden" name="meeting[_token]" value="{{ csrf_token('meeting') }}"/>
+        <input type="hidden" name="meeting_request[_token]" value="{{ csrf_token('meeting_request') }}"/>
     {{ form_end(meetingForm, {render_rest: false}) }}
 </div>
 {% endblock %}
