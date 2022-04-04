@@ -36,9 +36,6 @@ class MeetingRequestType extends AbstractType
                     'label' => 'form.meeting.note.label',
                     'required' => false,
             ])
-            ->add('paymentMethod', HiddenType::class, [
-                'attr' => ['data-payment-target' => 'paymentMethod'],
-            ])
         ;
     }
 

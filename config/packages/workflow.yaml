@@ -18,7 +18,7 @@ framework:
                 request:
                     from: draft
                     to: unpayed
-                prepay:
+                pay:
                     from: unpayed
                     to: pending
                 confirm:

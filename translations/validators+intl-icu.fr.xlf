@@ -10,6 +10,10 @@
                 <source>error.meeting.timeSlot</source>
                 <target>Vous devez choisir une date et une heure.</target>
             </trans-unit>
+            <trans-unit id="error.slot.not.available">
+                <source>error.slot.not.available</source>
+                <target>Le créneau choisi n'est pas disponible.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

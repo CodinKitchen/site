@@ -34,20 +34,19 @@ class MeetingSubscriber implements EventSubscriberInterface
     ) {
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             'workflow.meeting.completed.request' => [
                 ['createPaymentIntent', 20],
                 ['persistMeeting', 10],
             ],
-            'workflow.meeting.completed.prepay' => [
+            'workflow.meeting.completed.pay' => [
                 ['persistMeeting', 20],
                 ['requestAttendeeEmail', 10],
                 ['requestAdminEmail', 0],
             ],
             'workflow.meeting.completed.confirm' => [
-                ['capturePaymentIntent', 30],
                 ['persistMeeting', 20],
                 ['confirmedAttendeeEmail', 10],
             ],
@@ -67,10 +66,9 @@ class MeetingSubscriber implements EventSubscriberInterface
         $paymentIntent = $this->stripeClient->paymentIntents->create([
             'amount' => $meeting->getPrice(),
             'currency' => 'eur',
-            'capture_method' => 'manual',
-            'payment_method' => $event->getContext()['paymentMethod'] ?? null,
-            'payment_method_types' => ['card'],
-            'confirm' => true
+            'automatic_payment_methods' => [
+                'enabled' => true,
+            ],
         ]);
 
         $meeting->setPaymentReference($paymentIntent->id);
@@ -153,19 +151,6 @@ class MeetingSubscriber implements EventSubscriberInterface
         $this->notifier->send($notification, ...$this->notifier->getAdminRecipients());
     }
 
-    public function capturePaymentIntent(Event $event): void
-    {
-        /** @var Meeting $meeting */
-        $meeting = $event->getSubject();
-        if ($meeting->getPaymentReference() === null) {
-            $event->stopPropagation();
-            return;
-        }
-
-        $paymentIntent = $this->stripeClient->paymentIntents->retrieve($meeting->getPaymentReference());
-        $paymentIntent->capture();
-    }
-
     public function confirmedAttendeeEmail(Event $event): void
     {
         /** @var Meeting $meeting */
@@ -206,12 +191,13 @@ class MeetingSubscriber implements EventSubscriberInterface
                 $event->stopPropagation();
                 return;
             }
+
             $paymentIntent = $this->stripeClient->paymentIntents->retrieve($meeting->getPaymentReference());
-            if ($paymentIntent->status === PaymentIntent::STATUS_REQUIRES_CAPTURE) {
-                $paymentIntent->cancel();
+
+            if ($paymentIntent->status === PaymentIntent::STATUS_SUCCEEDED) {
+                $this->stripeClient->refunds->create(['payment_intent' => $meeting->getPaymentReference()]);
                 return;
             }
-            $this->stripeClient->refunds->create(['payment_intent' => $meeting->getPaymentReference()]);
         } catch (Exception $exception) {
             $event->stopPropagation();
         }

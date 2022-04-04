@@ -7,5 +7,11 @@ use Symfony\Component\Validator\Constraint;
 #[\Attribute]
 class TimeSlotAvailability extends Constraint
 {
-    public string $message = 'validator.slot.not.available';
+    public string $slotNotNull = 'error.meeting.timeSlot';
+    public string $slotNotAvailable = 'error.slot.not.available';
+
+    public function getTargets()
+    {
+        return self::CLASS_CONSTRAINT;
+    }
 }

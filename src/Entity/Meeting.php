@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\MeetingRepository;
-use App\Validator\Meeting\TimeSlotAvailability;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -46,7 +45,6 @@ class Meeting
 
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\NotNull(message:'error.meeting.timeSlot')]
-    #[TimeSlotAvailability()]
     private ?DateTimeImmutable $timeSlot;
 
     #[ORM\Column(type: 'text', nullable: true)]

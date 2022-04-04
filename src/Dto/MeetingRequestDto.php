@@ -3,38 +3,43 @@
 namespace App\Dto;
 
 use App\Entity\Meeting;
+use App\Validator\Meeting\TimeSlotAvailability;
 use DateTimeImmutable;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[TimeSlotAvailability()]
 class MeetingRequestDto
 {
-    private DateTimeImmutable $date;
+    #[Assert\NotNull()]
+    private ?DateTimeImmutable $date;
 
-    private DateTimeImmutable $time;
+    #[Assert\NotNull()]
+    private ?DateTimeImmutable $time;
 
+    #[Assert\Choice([1,2])]
+    #[Assert\NotNull()]
     private int $duration;
 
     private ?string $note = null;
 
-    private string $paymentMethod;
-
-    public function getDate(): DateTimeImmutable
+    public function getDate(): ?DateTimeImmutable
     {
         return $this->date;
     }
 
-    public function setDate(DateTimeImmutable $date): self
+    public function setDate(?DateTimeImmutable $date): self
     {
         $this->date = $date;
 
         return $this;
     }
 
-    public function getTime(): DateTimeImmutable
+    public function getTime(): ?DateTimeImmutable
     {
         return $this->time;
     }
 
-    public function setTime(DateTimeImmutable $time): self
+    public function setTime(?DateTimeImmutable $time): self
     {
         $this->time = $time;
 
@@ -65,26 +70,16 @@ class MeetingRequestDto
         return $this;
     }
 
-    public function getPaymentMethod(): string
-    {
-        return $this->paymentMethod;
-    }
-
-    public function setPaymentMethod(string $paymentMethod): self
-    {
-        $this->paymentMethod = $paymentMethod;
-
-        return $this;
-    }
-
     public function toMeeting(): Meeting
     {
         $meeting = new Meeting();
         $meeting->setDuration($this->duration);
         $meeting->setNote($this->note);
-        $timeSlot = $this->date;
-        $timeSlot = $timeSlot->setTime((int) $this->time->format('H'), (int) $this->time->format('i'));
-        $meeting->setTimeSlot($timeSlot);
+        if ($this->date !== null && $this->time !== null) {
+            $timeSlot = $this->date;
+            $timeSlot = $timeSlot->setTime((int) $this->time->format('H'), (int) $this->time->format('i'));
+            $meeting->setTimeSlot($timeSlot);
+        }
 
         return $meeting;
     }
