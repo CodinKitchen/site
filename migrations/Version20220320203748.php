@@ -28,7 +28,6 @@ final class Version20220320203748 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE schedule_rule ALTER rule TYPE VARCHAR(255)');
         $this->addSql('ALTER TABLE schedule_rule ALTER rule DROP DEFAULT');
         $this->addSql('ALTER TABLE meeting DROP price');

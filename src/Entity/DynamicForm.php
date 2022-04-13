@@ -18,7 +18,8 @@ class DynamicForm
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    #[ORM\OneToMany(mappedBy: 'form', targetEntity: DynamicFormInput::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'form', targetEntity: DynamicFormInput::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    #[ORM\OrderBy(['sort' => 'ASC'])]
     private $inputs;
 
     public function __construct()

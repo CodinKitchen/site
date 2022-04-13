@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use App\Form\Config\FormTypes;
 use App\Repository\DynamicFormInputRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DynamicFormInputRepository::class)]
 class DynamicFormInput
@@ -19,7 +21,7 @@ class DynamicFormInput
     #[ORM\Column(type: 'string', length: 255)]
     private $label;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, enumType: FormTypes::class)]
     private $type;
 
     #[ORM\Column(type: 'json', nullable: true)]
@@ -31,6 +33,18 @@ class DynamicFormInput
     #[ORM\ManyToOne(targetEntity: DynamicForm::class, inversedBy: 'inputs')]
     #[ORM\JoinColumn(nullable: false)]
     private $form;
+
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    private $sort;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Json()]
+    private $displayRule;
+
+    public function __toString()
+    {
+        return sprintf("%s", $this->name);
+    }
 
     public function getId(): ?int
     {
@@ -61,12 +75,12 @@ class DynamicFormInput
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?FormTypes
     {
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(FormTypes $type): self
     {
         $this->type = $type;
 
@@ -105,6 +119,30 @@ class DynamicFormInput
     public function setForm(?DynamicForm $form): self
     {
         $this->form = $form;
+
+        return $this;
+    }
+
+    public function getSort(): ?int
+    {
+        return $this->sort;
+    }
+
+    public function setSort(int $sort): self
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    public function getDisplayRule(): ?string
+    {
+        return $this->displayRule;
+    }
+
+    public function setDisplayRule(?string $displayRule): self
+    {
+        $this->displayRule = $displayRule;
 
         return $this;
     }
