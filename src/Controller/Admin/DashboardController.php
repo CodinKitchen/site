@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Assessment;
 use App\Entity\DynamicForm;
 use App\Entity\Meeting;
 use App\Entity\ScheduleRule;
@@ -37,5 +38,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Manage schedule', 'fa fa-calendar', ScheduleRule::class);
         yield MenuItem::linkToCrud('Meetings', 'fa fa-calendar', Meeting::class);
         yield MenuItem::linkToCrud('Forms', 'fa fa-calendar', DynamicForm::class);
+        yield MenuItem::linkToCrud('Assessment', 'fa fa-calendar', Assessment::class);
     }
 }

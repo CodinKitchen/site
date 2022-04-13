@@ -42,7 +42,7 @@ class DynamicFormInput
     #[Assert\Json()]
     private ?string $displayRule;
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf("%s", $this->name);
     }
