@@ -13,33 +13,34 @@ class DynamicFormInput
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private ?string $name;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $label;
+    private ?string $label;
 
     #[ORM\Column(type: 'string', length: 255, enumType: FormTypes::class)]
-    private $type;
+    private ?FormTypes $type;
 
+    /** @var mixed[]|null $options */
     #[ORM\Column(type: 'json', nullable: true)]
-    private $options = [];
+    private ?array $options = [];
 
     #[ORM\Column(type: 'integer')]
-    private $step;
+    private ?int $step;
 
     #[ORM\ManyToOne(targetEntity: DynamicForm::class, inversedBy: 'inputs')]
     #[ORM\JoinColumn(nullable: false)]
-    private $form;
+    private ?DynamicForm $form;
 
     #[ORM\Column(type: 'integer', options: ['default' => 0])]
-    private $sort;
+    private ?int $sort;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\Json()]
-    private $displayRule;
+    private ?string $displayRule;
 
     public function __toString()
     {
@@ -87,11 +88,17 @@ class DynamicFormInput
         return $this;
     }
 
+    /**
+     * @return null|mixed[]
+     */
     public function getOptions(): ?array
     {
         return $this->options;
     }
 
+    /**
+     * @param null|mixed[] $options
+     */
     public function setOptions(?array $options): self
     {
         $this->options = $options;

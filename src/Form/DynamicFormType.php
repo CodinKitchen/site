@@ -23,10 +23,13 @@ class DynamicFormType extends AbstractType
         }
 
         foreach ($dynamicForm->getInputs() as $input) {
+            if ($input->getName() === null) {
+                break;
+            }
             $options = $input->getOptions() ?? [];
             $options['data'] = null;
 
-            $builder->add($input->getName(), $input->getType()->value, $options);
+            $builder->add($input->getName(), $input->getType()?->value, $options);
 
             if ($input->getDisplayRule()) {
                 $builder->addEventListener(
@@ -34,6 +37,10 @@ class DynamicFormType extends AbstractType
                     function (FormEvent $event) use ($input) {
                         $form = $event->getForm();
                         $data = $event->getData();
+
+                        if (!is_array($data)) {
+                            $data = ['data' => $data];
+                        }
 
                         try {
                             $expressionLanguage = new ExpressionLanguage();

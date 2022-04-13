@@ -21,6 +21,7 @@ class DynamicFormComponent extends AbstractController
     {
     }
 
+    /** @var null|mixed[] */
     #[LiveProp(fieldName: 'data')]
     public ?array $data = null;
 

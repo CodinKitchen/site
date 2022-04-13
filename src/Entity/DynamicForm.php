@@ -13,14 +13,14 @@ class DynamicForm
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private ?string $name;
 
     #[ORM\OneToMany(mappedBy: 'form', targetEntity: DynamicFormInput::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     #[ORM\OrderBy(['sort' => 'ASC'])]
-    private $inputs;
+    private Collection $inputs;
 
     public function __construct()
     {
