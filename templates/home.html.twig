@@ -1,11 +1,9 @@
 {% extends "base.html.twig" %}
 
-{% block title %}CodinKitchen | Accueil
-{% endblock %}
-
+{% block title %}CodinKitchen | Accueil{% endblock %}
 
 {% block content %}
-	<h1 class="text-5xl font-bold text-center mb -20">Welcome to my Kitchen !</h1>
+	<h1 class="text-5xl font-bold text-center">Welcome to my Kitchen !</h1>
 	<section class="flex flex-wrap items-center my-20">
 		<div class="w-full mb-5 md:mb-0 md:w-1/4">
 			<img class="w-48 max-w-full mx-auto rounded-full aspect-square" src="{{ asset('build/images/portrait.jpeg') }}" alt="portrait">
@@ -58,15 +56,4 @@
 		</a>
 		</div>
 	</section>
-	{# <section class="my-20">
-			<h2 class="my-20 text-4xl font-bold text-center">Besoin d'un coach ?</h2>
-			<div class="table w-full mx-auto bg-green-200 rounded-lg shadow-md md:w-2/3 mb-14 h-72">
-				<ul class="table-cell px-10 py-10 align-middle list-disc md:px-20">
-					<li class="mb-4">Je vous aide à y voir plus clair sur vos projets et votre carrière</li>
-					<li class="mb-4">Vous pourrez revoir nos sessions en replay pendant 6 mois</li>
-					<li class="mb-4">Je vous accompagne techniquement pour vous faire monter en compétences</li>
-				</ul>
-			</div>
-			{% include 'components/_button.html.twig' with {label: 'Réservez votre session >', link: path('book')} only %}
-		</section> #}
 {% endblock %}
