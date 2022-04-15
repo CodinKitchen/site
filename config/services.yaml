@@ -28,3 +28,9 @@ services:
     App\Form\Extension\TranslationExtension:
         tags: 
             - {name: 'form.type_extension', priority: 10}
+
+    BigBlueButton\BigBlueButton:
+        class: BigBlueButton\BigBlueButton
+        arguments:
+            - '%env(BBB_BASE_URL)%'
+            - '%env(BBB_SECRET)%'
