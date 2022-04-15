@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ 'profile.title'|trans }}
+{% endblock %}
+
+{% block content %}
+	<h1 class="text-5xl font-bold text-center">{{ 'profile.title'|trans }}</h1>
+	<section class="my-20">
+		<h2 class="mb-20 text-3xl font-bold">{{ 'profile.meetings.title'|trans }}</h2>
+		<table class="w-full mx-auto table-auto md:w-3/4">
+			<thead class="border-b border-slate-500">
+				<tr>
+					<th class="text-left">{{ 'profile.meetings.date'|trans }}</th>
+					<th class="text-left">{{ 'profile.meetings.duration'|trans }}</th>
+					<th>{{ 'profile.meetings.action'|trans }}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="h-20 border-b border-slate-500">
+					<td>20/04/2022 à 10:00</td>
+					<td>1h</td>
+					<td></td>
+				</tr>
+                <tr class="h-20 border-b border-slate-500">
+					<td>15/04/2022 à 21:00</td>
+					<td>1h</td>
+					<td>{% include 'components/_button.html.twig' with {label: 'profile.meetings.join'|trans, link: path('book'), wrapper_classes: 'flex justify-center', outlined: true} only %}</td>
+				</tr>
+                <tr class="h-20 border-b border-slate-500">
+					<td>14/04/2022 à 10:00</td>
+					<td>1h</td>
+					<td>{% include 'components/_button.html.twig' with {label: 'profile.meetings.replay'|trans, link: path('book'), wrapper_classes: 'flex justify-center'} only %}</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+    {% include 'components/_button.html.twig' with {label: 'profile.logout'|trans, link: path('logout'), wrapper_classes: 'flex justify-items-start', outlined: true} only %}
+{% endblock %}

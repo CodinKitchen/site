@@ -10,6 +10,38 @@
                 <source>flash.meeting.request</source>
                 <target>J'ai bien noté ta demande pour le {date} à {time}. Je te répond rapidement !</target>
             </trans-unit>
+            <trans-unit id="profile.title">
+                <source>profile.title</source>
+                <target>Profil</target>
+            </trans-unit>
+            <trans-unit id="profile.meetings.title">
+                <source>profile.meetings.title</source>
+                <target>Mes sessions coaching</target>
+            </trans-unit>
+            <trans-unit id="profile.meetings.date">
+                <source>profile.meetings.date</source>
+                <target>Date</target>
+            </trans-unit>
+            <trans-unit id="profile.meetings.duration">
+                <source>profile.meetings.duration</source>
+                <target>Durée</target>
+            </trans-unit>
+            <trans-unit id="profile.meetings.action">
+                <source>profile.meetings.action</source>
+                <target>Action</target>
+            </trans-unit>
+            <trans-unit id="profile.meetings.join">
+                <source>profile.meetings.join</source>
+                <target>Rejoindre</target>
+            </trans-unit>
+            <trans-unit id="profile.meetings.replay">
+                <source>profile.meetings.replay</source>
+                <target>Replay</target>
+            </trans-unit>
+            <trans-unit id="profile.logout">
+                <source>profile.logout</source>
+                <target>Logout</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
