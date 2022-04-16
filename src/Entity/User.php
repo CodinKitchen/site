@@ -35,6 +35,9 @@ class User implements UserInterface
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $firstname;
 
+    #[ORM\Column(type: 'uuid', nullable: true)]
+    private $bbbMeetingId;
+
     public function __construct()
     {
         $this->meetings = new ArrayCollection();
@@ -140,6 +143,18 @@ class User implements UserInterface
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getBbbMeetingId()
+    {
+        return $this->bbbMeetingId;
+    }
+
+    public function setBbbMeetingId($bbbMeetingId): self
+    {
+        $this->bbbMeetingId = $bbbMeetingId;
 
         return $this;
     }

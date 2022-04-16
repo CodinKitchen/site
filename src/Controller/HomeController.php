@@ -26,9 +26,15 @@ class HomeController extends AbstractController
         $createMeetingParams->setBreakoutRoomsEnabled(false);
         $createMeetingParams->setBreakoutRoomsRecord(false);
         $createMeetingParams->setBreakoutRoomsPrivateChatEnabled(false);
-        $createMeetingParams->setMeetingLayout('abc');
-        dump($bigBlueButton->createMeeting($createMeetingParams));
-        dump($bigBlueButton->getJoinMeetingURL(new JoinMeetingParameters('yrzfiarw8hcpwqdcs914x9ram750cg3lzvvfxo2f', 'Toto', '')));
+        $createMeetingParams->setMeetingLayout('SMART_LAYOUT');
+        $createMeetingResponse = $bigBlueButton->createMeeting($createMeetingParams);
+        dump($createMeetingResponse);
+        $joinMeetingParams = new JoinMeetingParameters('yrzfiarw8hcpwqdcs914x9ram750cg3lzvvfxo2f', 'Toto', $createMeetingResponse->getAttendeePassword());
+        $joinMeetingParams->setRedirect(true);
+        dump($bigBlueButton->getJoinMeetingURL($joinMeetingParams));
+        $joinMeetingParams = new JoinMeetingParameters('yrzfiarw8hcpwqdcs914x9ram750cg3lzvvfxo2f', 'Toto', $createMeetingResponse->getModeratorPassword());
+        $joinMeetingParams->setRedirect(true);
+        dump($bigBlueButton->getJoinMeetingURL($joinMeetingParams));
 
         return $this->json(['status' => 'success']);
     }
