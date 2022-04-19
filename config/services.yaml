@@ -21,6 +21,8 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    Symfony\Component\Uid\Command\GenerateUuidCommand: ~
     
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -28,3 +30,9 @@ services:
     App\Form\Extension\TranslationExtension:
         tags: 
             - {name: 'form.type_extension', priority: 10}
+
+    BigBlueButton\BigBlueButton:
+        class: BigBlueButton\BigBlueButton
+        arguments:
+            - '%env(BBB_BASE_URL)%'
+            - '%env(BBB_SECRET)%'

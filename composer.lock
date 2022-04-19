@@ -4,8 +4,67 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf605b80d9a6267834bbc34c1ac78258",
+    "content-hash": "3b0e9e772940adff18dc843988e6993c",
     "packages": [
+        {
+            "name": "bigbluebutton/bigbluebutton-api-php",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bigbluebutton/bigbluebutton-api-php.git",
+                "reference": "9ae8bea5d0d31126244ccfe96f8eaeaf621b2a4d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bigbluebutton/bigbluebutton-api-php/zipball/9ae8bea5d0d31126244ccfe96f8eaeaf621b2a4d",
+                "reference": "9ae8bea5d0d31126244ccfe96f8eaeaf621b2a4d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-mbstring": "*",
+                "ext-simplexml": "*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "composer/composer": "^1.10.24",
+                "ext-mbstring": "*",
+                "fakerphp/faker": "^1.17",
+                "friendsofphp/php-cs-fixer": "^2.19",
+                "php-coveralls/php-coveralls": "^2.5.2",
+                "phpunit/phpunit": "^8.5",
+                "squizlabs/php_codesniffer": "^3.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BigBlueButton\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Ghazi Triki",
+                    "email": "ghazi.triki@riadvice.tn",
+                    "role": "Developer"
+                }
+            ],
+            "description": "BigBlueButton PHP API Library for PHP",
+            "homepage": "http://bigbluebutton.org/",
+            "keywords": [
+                "api",
+                "bbb",
+                "bigbluebutton"
+            ],
+            "support": {
+                "issues": "https://github.com/bigbluebutton/bigbluebutton-api-php/issues",
+                "source": "https://github.com/bigbluebutton/bigbluebutton-api-php/tree/2.1.1"
+            },
+            "time": "2022-01-24T15:53:50+00:00"
+        },
         {
             "name": "doctrine/annotations",
             "version": "1.13.2",
