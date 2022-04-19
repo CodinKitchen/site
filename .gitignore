@@ -3,7 +3,8 @@
 /.env.local
 /.env.local.php
 /.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
+/config/secrets/
+!/config/secrets/**.list.php
 /public/bundles/
 /var/
 /vendor/
@@ -18,3 +19,6 @@ yarn-error.log
 
 ### VS Code ###
 /.vscode/
+
+### Uploads ###
+/public/uploads
