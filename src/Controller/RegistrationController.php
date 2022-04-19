@@ -17,6 +17,7 @@ use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\LoginLinkAuthenticator;
+use Symfony\Component\Uid\Uuid;
 
 class RegistrationController extends AbstractController
 {
@@ -31,6 +32,7 @@ class RegistrationController extends AbstractController
     ): Response {
         $user = new User();
         $user->addRole(UserRole::ROLE_ATTENDEE);
+        $user->setBbbMeetingId(Uuid::v4());
 
         $registrationForm = $this->createForm(RegistrationType::class, $user);
         $registrationForm->handleRequest($request);

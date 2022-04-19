@@ -34,7 +34,7 @@ class UserFixtures extends Fixture
             $userEntity->setEmail($user['email']);
             $userEntity->setFirstname($user['firstname']);
             $userEntity->addRole($user['role']);
-            $userEntity->setBbbMeetingId($user['bbbMeetingId']);
+            $userEntity->setBbbMeetingId($user['bbbMeetingId'] !== null ? Uuid::fromString($user['bbbMeetingId']) : null);
             $this->setReference($user['ref'], $userEntity);
             $manager->persist($userEntity);
         }

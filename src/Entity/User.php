@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -36,7 +37,7 @@ class User implements UserInterface
     private ?string $firstname;
 
     #[ORM\Column(type: 'uuid', nullable: true)]
-    private $bbbMeetingId;
+    private ?Uuid $bbbMeetingId;
 
     public function __construct()
     {
@@ -147,12 +148,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getBbbMeetingId()
+    public function getBbbMeetingId(): ?Uuid
     {
         return $this->bbbMeetingId;
     }
 
-    public function setBbbMeetingId($bbbMeetingId): self
+    public function setBbbMeetingId(?Uuid $bbbMeetingId): self
     {
         $this->bbbMeetingId = $bbbMeetingId;
 
