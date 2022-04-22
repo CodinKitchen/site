@@ -13,13 +13,15 @@ class Meeting
 {
     public const STATUS_DRAFT = 'draft';
     public const STATUS_PENDING = 'pending';
-    public const STATUS_CONFIRMED = 'confirmed';
+    public const STATUS_STARTED = 'started';
+    public const STATUS_ENDED = 'ended';
     public const STATUS_CANCELED = 'canceled';
 
     public const ALLOWED_STATUSES = [
         self::STATUS_DRAFT,
         self::STATUS_PENDING,
-        self::STATUS_CONFIRMED,
+        self::STATUS_STARTED,
+        self::STATUS_ENDED,
         self::STATUS_CANCELED,
     ];
 
@@ -44,7 +46,7 @@ class Meeting
 
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\NotNull(message:'error.meeting.timeSlot')]
-    #[TimeSlotAvailability()]
+    // #[TimeSlotAvailability()]
     private ?DateTimeImmutable $timeSlot;
 
     #[ORM\Column(type: 'text', nullable: true)]

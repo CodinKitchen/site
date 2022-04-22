@@ -11,17 +11,21 @@ framework:
             places:
                 - draft
                 - pending
-                - confirmed
+                - started
+                - ended
                 - canceled
             transitions:
                 request:
                     from: draft
                     to: pending
-                confirm:
+                start:
                     from: pending
-                    to:   confirmed
+                    to:   started
+                end:
+                    from: started
+                    to:   ended
                 cancel:
-                    from: [pending, confirmed]
+                    from: pending
                     to:   canceled
 
 when@dev:

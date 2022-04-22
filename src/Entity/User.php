@@ -31,6 +31,7 @@ class User implements UserInterface
     private array $roles = [];
 
     #[ORM\OneToMany(mappedBy: 'attendee', targetEntity: Meeting::class)]
+    #[ORM\OrderBy(['timeSlot' => 'DESC'])]
     private Collection $meetings;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -42,6 +43,11 @@ class User implements UserInterface
     public function __construct()
     {
         $this->meetings = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->firstname;
     }
 
     public function getId(): ?int
