@@ -1,6 +1,7 @@
 {% extends "base.html.twig" %}
 
-{% block title %}CodinKitchen | Accueil{% endblock %}
+{% block title %}CodinKitchen | Accueil
+{% endblock %}
 
 
 {% block content %}
@@ -11,19 +12,61 @@
 		</div>
 		<div class="p-4 text-justify md:w-3/4">
 			<p class="mb-5">Après plus de dix ans à baigner dans le monde du développement web, j'ai compris que j'adorais deux choses : coder et aider d'autres développeurs. Ces dernières années vous êtres très nombreux à vous reconvertir au métier de développeur, et vous avez raison parce qu'il y a beaucoup à faire ! Mais souvent le manque de soutient vous empêche d'avancer sereinement pour démarrer votre carrière. Je partage avec vous ce que j'ai appris par ma propre expérience  et je vous accompagne dans votre nouvelle vie de dev.</p>
-			<p>Vous pouvez me suivre sur <a href="https://www.instagram.com/codin.kitchen/" class="font-bold text-teal-700 hover:text-teal-500">Instagram</a>, me rejoindre chaque vendredi à 20h sur <a href="https://www.twitch.tv/codinkitchen" class="font-bold text-teal-700 hover:text-teal-500">Twitch</a> ou réserver un séance de coaching rien que pour vous (juste en dessous)
+			<p>Vous pouvez me suivre sur
+				<a href="https://www.instagram.com/codin.kitchen/" class="font-bold text-teal-700 hover:text-teal-500">Instagram</a>, me rejoindre chaque vendredi à 20h sur
+				<a href="https://www.twitch.tv/codinkitchen" class="font-bold text-teal-700 hover:text-teal-500">Twitch</a>
+				ou rejoindre le
+				<a href="https://discord.gg/etJhAkc8" class="font-bold text-teal-700 hover:text-teal-500">serveur Discord</a> de la communauté ! Restez connectés pour découvrir l'actu et les nouveaux projets qui vous aideront à avancer :)
+			</p>
 		</div>
 	</section>
 	<hr class="mx-auto w-72">
 	<section class="my-20">
-		<h2 class="my-20 text-4xl font-bold text-center">Besoin d'un coach ?</h2>
-		<div class="table w-full mx-auto bg-green-200 rounded-lg shadow-md md:w-2/3 mb-14 h-72">
-			<ul class="table-cell px-10 py-10 align-middle list-disc md:px-20">
-				<li class="mb-4">Je vous aide à y voir plus clair sur vos projets et votre carrière</li>
-				<li class="mb-4">Vous pourrez revoir nos sessions en replay pendant 6 mois</li>
-				<li class="mb-4">Je vous accompagne techniquement pour vous faire monter en compétences</li>
-			</ul>
+		<div class="flex flex-wrap justify-between w-full mx-auto md:w-1/2">
+		<a href="https://twitch.tv/codinkitchen" class="ml-2 hover:text-cyan-700">
+			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitch" width="120" height="120" viewbox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+				<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+				<path d="M4 5v11a1 1 0 0 0 1 1h2v4l4 -4h5.584c.266 0 .52 -.105 .707 -.293l2.415 -2.414c.187 -.188 .293 -.442 .293 -.708v-8.585a1 1 0 0 0 -1 -1h-14a1 1 0 0 0 -1 1z"></path>
+				<line x1="16" y1="8" x2="16" y2="12"></line>
+				<line x1="12" y1="8" x2="12" y2="12"></line>
+			</svg>
+		</a>
+		<a href="https://discord.gg/etJhAkc8" class="ml-2 hover:text-cyan-700">
+			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-discord" width="120" height="120" viewbox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+				<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+				<circle cx="9" cy="12" r="1"></circle>
+				<circle cx="15" cy="12" r="1"></circle>
+				<path d="M7.5 7.5c3.5 -1 5.5 -1 9 0"></path>
+				<path d="M7 16.5c3.5 1 6.5 1 10 0"></path>
+				<path d="M15.5 17c0 1 1.5 3 2 3c1.5 0 2.833 -1.667 3.5 -3c.667 -1.667 .5 -5.833 -1.5 -11.5c-1.457 -1.015 -3 -1.34 -4.5 -1.5l-1 2.5"></path>
+				<path d="M8.5 17c0 1 -1.356 3 -1.832 3c-1.429 0 -2.698 -1.667 -3.333 -3c-.635 -1.667 -.476 -5.833 1.428 -11.5c1.388 -1.015 2.782 -1.34 4.237 -1.5l1 2.5"></path>
+			</svg>
+		</a>
+		<a href="https://www.instagram.com/codin.kitchen/" class="ml-2 hover:text-cyan-700">
+			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="120" height="120" viewbox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+				<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+				<rect x="4" y="4" width="16" height="16" rx="4"></rect>
+				<circle cx="12" cy="12" r="3"></circle>
+				<line x1="16.5" y1="7.5" x2="16.5" y2="7.501"></line>
+			</svg>
+		</a>
+		<a href="https://github.com/codinKitchen" class="ml-2 hover:text-cyan-700">
+			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="120" height="120" viewbox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+				<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+				<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path>
+			</svg>
+		</a>
 		</div>
-		{% include 'components/_button.html.twig' with {label: 'Réservez votre session >', link: path('book')} only %}
 	</section>
+	{# <section class="my-20">
+			<h2 class="my-20 text-4xl font-bold text-center">Besoin d'un coach ?</h2>
+			<div class="table w-full mx-auto bg-green-200 rounded-lg shadow-md md:w-2/3 mb-14 h-72">
+				<ul class="table-cell px-10 py-10 align-middle list-disc md:px-20">
+					<li class="mb-4">Je vous aide à y voir plus clair sur vos projets et votre carrière</li>
+					<li class="mb-4">Vous pourrez revoir nos sessions en replay pendant 6 mois</li>
+					<li class="mb-4">Je vous accompagne techniquement pour vous faire monter en compétences</li>
+				</ul>
+			</div>
+			{% include 'components/_button.html.twig' with {label: 'Réservez votre session >', link: path('book')} only %}
+		</section> #}
 {% endblock %}
