@@ -13,15 +13,17 @@ class MeetingFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $meeting = new Meeting();
-        $meeting->setDuration(1);
-        $meeting->setNote('Test metting');
-        $meeting->setStatus(Meeting::STATUS_CONFIRMED);
-        $meeting->setTimeSlot(new DateTimeImmutable());
-        /** @var User $attendee */
-        $attendee = $this->getReference('attendee');
-        $meeting->setAttendee($attendee);
-        $manager->persist($meeting);
+        foreach (Meeting::ALLOWED_STATUSES as $status) {
+            $meeting = new Meeting();
+            $meeting->setDuration(1);
+            $meeting->setNote('Test metting');
+            $meeting->setStatus($status);
+            $meeting->setTimeSlot(new DateTimeImmutable());
+            /** @var User $attendee */
+            $attendee = $this->getReference('attendee');
+            $meeting->setAttendee($attendee);
+            $manager->persist($meeting);
+        }
 
         $manager->flush();
     }

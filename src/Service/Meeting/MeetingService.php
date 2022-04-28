@@ -3,6 +3,7 @@
 namespace App\Service\Meeting;
 
 use App\Entity\Meeting;
+use App\Entity\User;
 use App\Repository\MeetingRepository;
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Core\MeetingLayout;
@@ -14,13 +15,11 @@ use BigBlueButton\Responses\CreateMeetingResponse;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Security;
 
 class MeetingService
 {
     public function __construct(
         private BigBlueButton $bigBlueButton,
-        private Security $security,
         private Packages $packages,
         private UrlHelper $urlHelper,
         private UrlGeneratorInterface $urlGenerator,
@@ -58,11 +57,10 @@ class MeetingService
         return $this->bigBlueButton->getJoinMeetingURL($joinMeetingParams);
     }
 
-    public function getRecordings()
+    public function getRecordings(User $user): array
     {
-        $meeting = $this->meetingRepository->find(2);
         $recordingsParams = new GetRecordingsParameters();
-        $recordingsParams->setMeetingId($meeting->getAttendee()->getBbbMeetingId());
-        dump($this->bigBlueButton->getRecordings($recordingsParams));
+        $recordingsParams->setMeetingId((string) $user->getBbbMeetingId());
+        return $this->bigBlueButton->getRecordings($recordingsParams)->getRecords();
     }
 }
