@@ -110,6 +110,9 @@
     "phpstan/phpstan-doctrine": {
         "version": "1.2.11"
     },
+    "presta/sitemap-bundle": {
+        "version": "v3.3.0"
+    },
     "psr/cache": {
         "version": "3.0.0"
     },
