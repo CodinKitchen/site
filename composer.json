@@ -16,6 +16,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
         "easycorp/easyadmin-bundle": "^4.0",
+        "presta/sitemap-bundle": "^3.3",
         "sensio/framework-extra-bundle": "^6.2",
         "simshaun/recurr": "^5.0",
         "symfony/apache-pack": "^1.0",
@@ -89,7 +90,8 @@
             "@auto-scripts"
         ],
         "compile": [
-            "php bin/console doctrine:migrations:migrate -n"
+            "php bin/console doctrine:migrations:migrate -n",
+            "php bin/console presta:sitemap:dump"
         ]
     },
     "conflict": {
