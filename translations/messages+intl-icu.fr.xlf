@@ -8,7 +8,7 @@
             </trans-unit>
             <trans-unit id="meta.title.default">
                 <source>meta.title.default</source>
-                <target>CodinKitchen</target>
+                <target>CodinKitchen | Formation en développement web</target>
             </trans-unit>
             <trans-unit id="flash.login.unknown.user">
                 <source>flash.login.unknown.user</source>
