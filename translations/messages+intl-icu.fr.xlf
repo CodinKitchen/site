@@ -2,6 +2,14 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="fr" datatype="plaintext" original="file.ext">
         <body>
+            <trans-unit id="meta.description.default">
+                <source>meta.description.default</source>
+                <target>CodinKitchen, votre plateforme de formation préférée pour les développeurs web !</target>
+            </trans-unit>
+            <trans-unit id="meta.title.default">
+                <source>meta.title.default</source>
+                <target>CodinKitchen</target>
+            </trans-unit>
             <trans-unit id="flash.login.unknown.user">
                 <source>flash.login.unknown.user</source>
                 <target>On dirait qu'on ne se connait pas encore ! Comment tu t'appelles ? Moi c'est Gauthier ;)</target>
