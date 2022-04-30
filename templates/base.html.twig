@@ -13,6 +13,9 @@
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
+			{% if app.environment == 'prod' %}
+			<script async src="https://analytics.codin.kitchen/tracker.js" data-ackee-server="https://analytics.codin.kitchen" data-ackee-domain-id="b107ea29-e630-4f60-bace-86921b14866f"></script>
+			{% endif %}
 		{% endblock %}
 	</head>
 	<body class="font-regular">
