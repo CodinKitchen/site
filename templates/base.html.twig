@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
 	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width"/>
-		<meta name="description" content="{% block metaDescription %}{{ 'meta.description.default'|trans }}{% endblock %}"/>
-		<link rel="icon" type="image/svg" href="{{ asset('build/images/logo_codinkitchen.svg') }}">
-		<title>{% block title %}{{ 'meta.title.default'|trans }}{% endblock %}</title>
+		{% block meta %}
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width"/>
+			<meta name="description" content="{% block metaDescription %}{{ 'meta.description.default'|trans }}{% endblock %}"/>
+			<link rel="icon" type="image/svg" href="{{ asset('build/images/logo_codinkitchen.svg') }}">
+			<title>{% block title %}{{ 'meta.title.default'|trans }}{% endblock %}</title>
+		{% endblock %}
 		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
