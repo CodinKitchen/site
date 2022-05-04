@@ -1,3 +1,5 @@
 parameters:
     level: 9
     checkGenericClassInNonGenericObjectType: false
+    ignoreErrors:
+        - '#^Parameter $repositoryClass of attribute class Doctrine\\ORM\\Mapping\\Entity constructor expects class-string<Doctrine\\ORM\\EntityRepository<T of object>>|null#'
