@@ -52,6 +52,9 @@ class Meeting
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $note;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $bbbRecordingId;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -118,5 +121,29 @@ class Meeting
         $this->note = $note;
 
         return $this;
+    }
+
+    public function getBbbRecordingId(): ?string
+    {
+        return $this->bbbRecordingId;
+    }
+
+    public function setBbbRecordingId(?string $bbbRecordingId): self
+    {
+        $this->bbbRecordingId = $bbbRecordingId;
+
+        return $this;
+    }
+
+    public function isJoinable(): bool
+    {
+        return
+            $this->status === self::STATUS_STARTED ||
+            ($this->status == self::STATUS_PENDING && $this->timeSlot < new DateTimeImmutable());
+    }
+
+    public function isPlayable(): bool
+    {
+        return $this->status === self::STATUS_ENDED && $this->bbbRecordingId !== null;
     }
 }

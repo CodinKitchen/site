@@ -13,6 +13,7 @@ services:
         
         bind:
             Symfony\Component\Security\Http\Authenticator\LoginLinkAuthenticator $mainAuthenticator: '@security.authenticator.login_link.main'
+            string $rootDir: '%kernel.project_dir%'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
@@ -37,8 +38,8 @@ class User implements UserInterface
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $firstname;
 
-    #[ORM\Column(type: 'uuid', nullable: true)]
-    private ?Uuid $bbbMeetingId;
+    #[ORM\Column(type: 'string', nullable: true)]
+    private Uuid|string|null $bbbMeetingId;
 
     public function __construct()
     {
@@ -154,12 +155,16 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getBbbMeetingId(): ?Uuid
+    public function getBbbMeetingId(): Uuid|string|null
     {
-        return $this->bbbMeetingId;
+        try {
+            return Uuid::fromString($this->bbbMeetingId);
+        } catch (InvalidArgumentException $e) {
+            return $this->bbbMeetingId;
+        }
     }
 
-    public function setBbbMeetingId(?Uuid $bbbMeetingId): self
+    public function setBbbMeetingId(Uuid|string|null $bbbMeetingId): self
     {
         $this->bbbMeetingId = $bbbMeetingId;
 
