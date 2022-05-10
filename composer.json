@@ -18,6 +18,7 @@
         "doctrine/orm": "^2.11",
         "easycorp/easyadmin-bundle": "^4.0",
         "presta/sitemap-bundle": "^3.3",
+        "scienta/doctrine-json-functions": "^5.0",
         "sensio/framework-extra-bundle": "^6.2",
         "simshaun/recurr": "^5.0",
         "symfony/apache-pack": "^1.0",

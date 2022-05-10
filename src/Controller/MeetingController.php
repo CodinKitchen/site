@@ -26,11 +26,11 @@ class MeetingController extends AbstractController
         return $this->redirect($meetingService->getPlaybackUrl($meeting));
     }
 
-    #[Route('/meeting/{id}/replay/ready', name: 'meeting_replay')]
+    #[Route('/meeting/{id}/replay/ready', name: 'meeting_replay_ready')]
     public function replayReady(Meeting $meeting, Request $request, WorkflowInterface $meetingStateMachine): Response
     {
         $meeting->setBbbRecordingId($request->request->get('recordId'));
-        $meetingStateMachine->apply($meeting, 'end');
+        $meetingStateMachine->apply($meeting, 'to_playable');
         return $this->redirect($meetingService->getPlaybackUrl($meeting));
     }
 }

@@ -61,6 +61,11 @@ class Meeting
 
     private ?string $meetingUrl;
 
+    public function __construct()
+    {
+        $this->status = self::STATUS_DRAFT;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -149,7 +154,8 @@ class Meeting
     public function setMeetingUrl(string $meetingUrl): self
     {
         $this->meetingUrl = $meetingUrl;
-        return $this
+
+        return $this;
     }
 
     public function isJoinable(): bool

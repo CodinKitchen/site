@@ -64,7 +64,7 @@ class BbbMigrateUsersCommand extends Command
             foreach ($recordings as $recording) {
                 $meeting = new Meeting();
                 $meeting->setAttendee($userEntity);
-                $meeting->setStatus(Meeting::STATUS_ENDED);
+                $meeting->setStatus(Meeting::STATUS_PLAYABLE);
                 $startTime = round((float) $recording->getStartTime() / 1000);
                 $startTime = DateTimeImmutable::createFromFormat('U', (string) $startTime);
                 if (!$startTime) {

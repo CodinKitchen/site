@@ -7,10 +7,12 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use InvalidArgumentException;
+use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
+use Throwable;
+use TypeError;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -165,7 +167,7 @@ class User implements UserInterface
     {
         try {
             return Uuid::fromString($this->bbbMeetingId);
-        } catch (InvalidArgumentException $e) {
+        } catch (Throwable $t) {
             return $this->bbbMeetingId;
         }
     }
