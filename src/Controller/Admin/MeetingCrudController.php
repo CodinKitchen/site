@@ -14,12 +14,16 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Workflow\WorkflowInterface;
 
 class MeetingCrudController extends AbstractCrudController
 {
-    public function __construct(private MeetingService $meetingService)
-    {
+    public function __construct(
+        private MeetingService $meetingService,
+        private WorkflowInterface $meetingStateMachine
+    ) {
     }
 
     public static function getEntityFqcn(): string
@@ -38,14 +42,11 @@ class MeetingCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
-            ChoiceField::new('status')
-                ->setChoices(array_combine(Meeting::ALLOWED_STATUSES, Meeting::ALLOWED_STATUSES)),
-            DateTimeField::new('timeSlot'),
-            IntegerField::new('duration'),
-            TextareaField::new('note'),
-            AssociationField::new('attendee'),
-        ];
+        yield TextField::new('status')->setDisabled();
+        yield DateTimeField::new('timeSlot');
+        yield IntegerField::new('duration');
+        yield TextareaField::new('note');
+        yield AssociationField::new('attendee');
     }
 
     public function joinMeeting(AdminContext $context): Response

@@ -13,15 +13,19 @@ class Meeting
 {
     public const STATUS_DRAFT = 'draft';
     public const STATUS_PENDING = 'pending';
+    public const STATUS_CONFIRMED = 'confirmed';
     public const STATUS_STARTED = 'started';
     public const STATUS_ENDED = 'ended';
+    public const STATUS_PLAYABLE = 'playable';
     public const STATUS_CANCELED = 'canceled';
 
     public const ALLOWED_STATUSES = [
         self::STATUS_DRAFT,
         self::STATUS_PENDING,
+        self::STATUS_CONFIRMED,
         self::STATUS_STARTED,
         self::STATUS_ENDED,
+        self::STATUS_PLAYABLE,
         self::STATUS_CANCELED,
     ];
 
@@ -137,13 +141,6 @@ class Meeting
 
     public function isJoinable(): bool
     {
-        return
-            $this->status === self::STATUS_STARTED ||
-            ($this->status == self::STATUS_PENDING && $this->timeSlot < new DateTimeImmutable());
-    }
-
-    public function isPlayable(): bool
-    {
-        return $this->status === self::STATUS_ENDED && $this->bbbRecordingId !== null;
+        return $this->status === self::STATUS_CONFIRMED && $this->timeSlot < new DateTimeImmutable();
     }
 }

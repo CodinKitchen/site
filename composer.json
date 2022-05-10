@@ -25,6 +25,7 @@
         "symfony/debug-bundle": "6.0.*",
         "symfony/dotenv": "6.0.*",
         "symfony/event-dispatcher": "6.0.*",
+        "symfony/expression-language": "6.0.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.0.*",
         "symfony/mailer": "6.0.*",

@@ -42,6 +42,18 @@
                 <source>profile.meetings.join</source>
                 <target>Rejoindre</target>
             </trans-unit>
+            <trans-unit id="profile.meetings.upcoming">
+                <source>profile.meetings.upcoming</source>
+                <target>À venir !</target>
+            </trans-unit>
+            <trans-unit id="profile.meetings.canceled">
+                <source>profile.meetings.canceled</source>
+                <target>Annulé</target>
+            </trans-unit>
+            <trans-unit id="profile.meetings.waitingForRecording">
+                <source>profile.meetings.waitingForRecording</source>
+                <target>En attente de l'enregistrement</target>
+            </trans-unit>
             <trans-unit id="profile.meetings.replay">
                 <source>profile.meetings.replay</source>
                 <target>Replay</target>

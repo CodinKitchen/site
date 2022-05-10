@@ -14,8 +14,8 @@ use Symfony\Component\Workflow\WorkflowInterface;
 
 class BookingController extends AbstractController
 {
-    #[Route('/book', name: 'book')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    // #[Route('/book', name: 'book')]
+    // #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function index(
         Request $request,
         WorkflowInterface $meetingStateMachine
