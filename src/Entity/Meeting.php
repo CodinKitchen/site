@@ -59,6 +59,8 @@ class Meeting
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $bbbRecordingId;
 
+    private ?string $meetingUrl;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +139,17 @@ class Meeting
         $this->bbbRecordingId = $bbbRecordingId;
 
         return $this;
+    }
+
+    public function getMeetingUrl(): ?string
+    {
+        return $this->meetingUrl;
+    }
+
+    public function setMeetingUrl(string $meetingUrl): self
+    {
+        $this->meetingUrl = $meetingUrl;
+        return $this
     }
 
     public function isJoinable(): bool

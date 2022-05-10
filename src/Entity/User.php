@@ -107,6 +107,12 @@ class User implements UserInterface
         return $this;
     }
 
+    public function isAdmin(): bool
+    {
+        $roles = $this->getRoles();
+        return in_array(UserRole::ROLE_ADMIN->name, $roles);
+    }
+
     /**
      * @see UserInterface
      */

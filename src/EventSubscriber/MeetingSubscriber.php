@@ -7,6 +7,7 @@ use App\Entity\Meeting;
 use App\Entity\User;
 use App\Notification\AdminNotification;
 use App\Notification\AttendeeNotification;
+use App\Service\Meeting\MeetingService;
 use App\Service\Notification\NotificationFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -30,6 +31,7 @@ class MeetingSubscriber implements EventSubscriberInterface
         private NotificationFactory $notificationFactory,
         private Security $security,
         private AdminUrlGenerator $adminUrlGenerator,
+        private MeetingService $meetingService,
     ) {
     }
 
@@ -40,6 +42,10 @@ class MeetingSubscriber implements EventSubscriberInterface
                 ['persistMeeting', 20],
                 ['onMeetingRequestAttendeeEmail', 10],
                 ['onMeetingRequestAdminEmail', 0],
+            ],
+            'workflow.meeting.completed.start' => [
+                ['persistMeeting', 20],
+                ['generateMeetingUrl', 10],
             ]
         ];
     }
@@ -127,5 +133,20 @@ class MeetingSubscriber implements EventSubscriberInterface
 
         // Send the notification to the recipient
         $this->notifier->send($notification, ...$this->notifier->getAdminRecipients());
+    }
+
+    public function generateMeetingUrl(Event $event): void
+    {
+        /** @var User|null $user */
+        $user = $this->security->getUser();
+
+        if ($user === null) {
+            return;
+        }
+
+        /** @var Meeting $meeting */
+        $meeting = $event->getSubject();
+
+        $meeting->setMeetingUrl($this->meetingService->join($meeting, $user->isAdmin()));
     }
 }
