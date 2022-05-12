@@ -26,6 +26,8 @@ framework:
                 auto_validate:
                     from: draft
                     to: confirmed
+                    metadata:
+                        manual_action: false
                 start:
                     guard: "subject.isJoinable()"
                     from: confirmed
@@ -33,9 +35,13 @@ framework:
                 end:
                     from: started
                     to:   ended
+                    metadata:
+                        manual_action: false
                 to_playable:
                     from: ended
                     to:   playable
+                    metadata:
+                        manual_action: false
                 cancel:
                     from: pending
                     to:   canceled

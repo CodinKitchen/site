@@ -29,6 +29,5 @@ class MeetingSubscriber implements EventSubscriberInterface
         }
 
         $this->meetingStateMachine->apply($entity, 'auto_validate');
-        dump($entity);
     }
 }

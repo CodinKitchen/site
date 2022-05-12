@@ -44,7 +44,11 @@ class MeetingCrudController extends AbstractCrudController
         /** @var Transition $transition */
         foreach ($this->meetingStateMachine->getDefinition()->getTransitions() as $transition) {
             $workflowAction = Action::new($transition->getName(), $transition->getName())
-                ->displayIf(fn(Meeting $meeting) => $this->meetingStateMachine->can($meeting, $transition->getName()))
+                ->displayIf(function (Meeting $meeting) use ($transition) {
+                    $transitionMetadata = $this->meetingStateMachine->getMetadataStore()->getTransitionMetadata($transition);
+                    $manualAction = $transitionMetadata['manual_action'] ?? true;
+                    return $this->meetingStateMachine->can($meeting, $transition->getName()) && $manualAction;
+                })
                 ->linkToUrl(function (Meeting $meeting) use ($transition) {
                     return $this->adminUrlGenerator
                         ->unsetAll()
@@ -57,6 +61,20 @@ class MeetingCrudController extends AbstractCrudController
             $actions->add(Crud::PAGE_EDIT, $workflowAction);
             $actions->add(Crud::PAGE_INDEX, $workflowAction);
         }
+
+        $joinAction = Action::new('join-meeting', 'Join meeting')
+            ->displayIf(fn(Meeting $meeting) => $meeting->getStatus() === Meeting::STATUS_STARTED)
+            ->linkToCrudAction('joinMeeting');
+
+        $actions->add(Crud::PAGE_EDIT, $joinAction);
+        $actions->add(Crud::PAGE_INDEX, $joinAction);
+
+        $joinAction = Action::new('replay', 'Replay')
+            ->displayIf(fn(Meeting $meeting) => $meeting->getStatus() === Meeting::STATUS_PLAYABLE)
+            ->linkToCrudAction('replayMeeting');
+
+        $actions->add(Crud::PAGE_EDIT, $joinAction);
+        $actions->add(Crud::PAGE_INDEX, $joinAction);
 
         return $actions;
     }
@@ -82,12 +100,14 @@ class MeetingCrudController extends AbstractCrudController
         /** @var Meeting $meeting */
         $meeting = $context->getEntity()->getInstance();
 
-        $this->meetingStateMachine->apply($meeting, $context->getRequest()->query->get('transition'));
+        $state = $this->meetingStateMachine->apply($meeting, $context->getRequest()->query->get('transition'));
 
-        return $this->redirect($this->adminUrlGenerator
+        $redirectUrl = $state->getContext()['redirect_url'] ?? $this->adminUrlGenerator
             ->setController(self::class)
             ->setAction(Action::INDEX)
-            ->generateUrl());
+            ->generateUrl();
+
+        return $this->redirect($redirectUrl);
     }
 
     public function joinMeeting(AdminContext $context): Response
@@ -96,5 +116,13 @@ class MeetingCrudController extends AbstractCrudController
         $meeting = $context->getEntity()->getInstance();
 
         return $this->redirect($this->meetingService->join($meeting, true));
+    }
+
+    public function replayMeeting(AdminContext $context): Response
+    {
+        /** @var Meeting $meeting */
+        $meeting = $context->getEntity()->getInstance();
+
+        return $this->redirect($this->meetingService->getPlaybackUrl($meeting));
     }
 }

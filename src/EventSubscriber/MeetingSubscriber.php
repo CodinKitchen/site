@@ -19,6 +19,7 @@ use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Workflow\Event\Event;
+use Symfony\Component\Workflow\Event\TransitionEvent;
 
 class MeetingSubscriber implements EventSubscriberInterface
 {
@@ -43,7 +44,7 @@ class MeetingSubscriber implements EventSubscriberInterface
                 ['onMeetingRequestAttendeeEmail', 10],
                 ['onMeetingRequestAdminEmail', 0],
             ],
-            'workflow.meeting.completed.start' => [
+            'workflow.meeting.transition.start' => [
                 ['persistMeeting', 20],
                 ['generateMeetingUrl', 10],
             ]
@@ -135,7 +136,7 @@ class MeetingSubscriber implements EventSubscriberInterface
         $this->notifier->send($notification, ...$this->notifier->getAdminRecipients());
     }
 
-    public function generateMeetingUrl(Event $event): void
+    public function generateMeetingUrl(TransitionEvent $event): void
     {
         /** @var User|null $user */
         $user = $this->security->getUser();
@@ -146,7 +147,9 @@ class MeetingSubscriber implements EventSubscriberInterface
 
         /** @var Meeting $meeting */
         $meeting = $event->getSubject();
+        $context = $event->getContext();
 
-        $meeting->setMeetingUrl($this->meetingService->join($meeting, $user->isAdmin()));
+        $context['redirect_url'] = $meeting->setMeetingUrl($this->meetingService->join($meeting, $user->isAdmin()));
+        $event->setContext($context);
     }
 }
