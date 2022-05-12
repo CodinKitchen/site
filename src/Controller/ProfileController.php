@@ -18,7 +18,12 @@ class ProfileController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        $meetings = $user->getMeetings()->filter(fn(Meeting $meeting) => $meeting->getStatus() !== Meeting::STATUS_DRAFT);
+        $meetings = $user->getMeetings()->filter(function ($item) {
+            if (!$item instanceof Meeting) {
+                return;
+            }
+            return $item->getStatus() !== Meeting::STATUS_DRAFT;
+        });
 
         return $this->render('profile/index.html.twig', compact('meetings'));
     }
