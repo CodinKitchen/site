@@ -4,9 +4,9 @@ namespace App\Service\Meeting;
 
 use App\Entity\Meeting;
 use App\Entity\User;
-use App\Repository\MeetingRepository;
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Core\MeetingLayout;
+use BigBlueButton\Core\Record;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
@@ -23,14 +23,15 @@ class MeetingService
         private Packages $packages,
         private UrlHelper $urlHelper,
         private UrlGeneratorInterface $urlGenerator,
-        private MeetingRepository $meetingRepository,
-    ) {}
+    ) {
+    }
 
     public function join(Meeting $meeting, bool $moderator = false): string
     {
+        $meetingId = (string) $meeting->getAttendee()->getBbbMeetingId();
         $logoUrl = $this->urlHelper->getAbsoluteUrl($this->packages->getUrl('build/images/logo_codinkitchen.png'));
         $logoutUrl = $this->urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $createMeetingParams = new CreateMeetingParameters((string) $meeting->getAttendee()->getBbbMeetingId(), sprintf('Meeting %d', $meeting->getId()));
+        $createMeetingParams = new CreateMeetingParameters($meetingId, sprintf('Meeting %d', $meeting->getId()));
         $createMeetingParams->setAllowModsToEjectCameras(true);
         $createMeetingParams->setBreakoutRoomsEnabled(false);
         $createMeetingParams->setBreakoutRoomsRecord(false);
@@ -46,21 +47,31 @@ class MeetingService
         $firstname = $moderator ? 'Gauthier' : $meeting->getAttendee()->getFirstname();
 
         if ($meetingResponse->getReturnCode() === CreateMeetingResponse::FAILED) {
-            $meetingInfoParams = new GetMeetingInfoParameters((string) $meeting->getAttendee()->getBbbMeetingId(), '');
+            $meetingInfoParams = new GetMeetingInfoParameters($meetingId, '');
             $meetingResponse = $this->bigBlueButton->getMeetingInfo($meetingInfoParams);
             $password = (string) ($moderator ? $meetingResponse->getMeeting()->getModeratorPassword() : $meetingResponse->getMeeting()->getAttendeePassword());
         }
 
-        $joinMeetingParams = new JoinMeetingParameters((string) $meeting->getAttendee()->getBbbMeetingId(), $firstname, $password);
+        $joinMeetingParams = new JoinMeetingParameters($meetingId, $firstname, $password);
         $joinMeetingParams->setRedirect(true);
 
         return $this->bigBlueButton->getJoinMeetingURL($joinMeetingParams);
     }
 
+    /**
+     * @return Record[]
+     */
     public function getRecordings(User $user): array
     {
         $recordingsParams = new GetRecordingsParameters();
         $recordingsParams->setMeetingId((string) $user->getBbbMeetingId());
         return $this->bigBlueButton->getRecordings($recordingsParams)->getRecords();
+    }
+
+    public function getPlaybackUrl(Meeting $meeting): string
+    {
+        $recordingsParams = new GetRecordingsParameters();
+        $recordingsParams->setRecordId($meeting->getBbbRecordingId());
+        return $this->bigBlueButton->getRecordings($recordingsParams)->getRecords()[0]->getPlaybackUrl();
     }
 }

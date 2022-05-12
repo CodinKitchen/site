@@ -7,6 +7,7 @@ use App\Entity\Meeting;
 use App\Entity\User;
 use App\Notification\AdminNotification;
 use App\Notification\AttendeeNotification;
+use App\Service\Meeting\MeetingService;
 use App\Service\Notification\NotificationFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -18,6 +19,7 @@ use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Workflow\Event\Event;
+use Symfony\Component\Workflow\Event\TransitionEvent;
 
 class MeetingSubscriber implements EventSubscriberInterface
 {
@@ -30,6 +32,7 @@ class MeetingSubscriber implements EventSubscriberInterface
         private NotificationFactory $notificationFactory,
         private Security $security,
         private AdminUrlGenerator $adminUrlGenerator,
+        private MeetingService $meetingService,
     ) {
     }
 
@@ -40,6 +43,10 @@ class MeetingSubscriber implements EventSubscriberInterface
                 ['persistMeeting', 20],
                 ['onMeetingRequestAttendeeEmail', 10],
                 ['onMeetingRequestAdminEmail', 0],
+            ],
+            'workflow.meeting.transition.start' => [
+                ['persistMeeting', 20],
+                ['generateMeetingUrl', 10],
             ]
         ];
     }
@@ -127,5 +134,22 @@ class MeetingSubscriber implements EventSubscriberInterface
 
         // Send the notification to the recipient
         $this->notifier->send($notification, ...$this->notifier->getAdminRecipients());
+    }
+
+    public function generateMeetingUrl(TransitionEvent $event): void
+    {
+        /** @var User|null $user */
+        $user = $this->security->getUser();
+
+        if ($user === null) {
+            return;
+        }
+
+        /** @var Meeting $meeting */
+        $meeting = $event->getSubject();
+        $context = $event->getContext();
+
+        $context['redirect_url'] = $meeting->setMeetingUrl($this->meetingService->join($meeting, $user->isAdmin()));
+        $event->setContext($context);
     }
 }

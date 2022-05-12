@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% set user = app.user %}
-
 {% block title %}
 	{{ 'profile.title'|trans }}
 {% endblock %}
@@ -9,35 +7,42 @@
 {% block content %}
 	<h1 class="text-5xl font-bold text-center">{{ 'profile.title'|trans }}</h1>
 	<section class="my-20">
-		<h2 class="mb-20 text-3xl font-bold">{{ 'profile.meetings.title'|trans }}</h2>
+		<h2 class="mb-20 text-3xl font-bold text-center md:text-left">{{ 'profile.meetings.title'|trans }}</h2>
 		<table class="w-full mx-auto table-auto md:w-3/4">
 			<thead class="border-b border-slate-500">
 				<tr>
-					<th class="text-left">{{ 'profile.meetings.date'|trans }}</th>
-					<th class="text-left">{{ 'profile.meetings.duration'|trans }}</th>
+					<th>{{ 'profile.meetings.date'|trans }}</th>
+					<th>{{ 'profile.meetings.duration'|trans }}</th>
 					<th>{{ 'profile.meetings.action'|trans }}</th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for meeting in user.meetings %}
+				{% for meeting in meetings %}
 				<tr class="h-20 border-b border-slate-500">
-					<td>{{ meeting.timeSlot|date('d/m/Y H:i') }}</td>
-					<td>{{ meeting.duration }}h</td>
-					<td></td>
+					<td class="text-center">{{ meeting.timeSlot|date('d/m/Y H:i') }}</td>
+					<td class="text-center">{{ meeting.duration }}h</td>
+					<td class="text-center">
+					{% if not workflow_can(meeting, 'start') and workflow_has_marked_place(meeting, 'pending') %}
+						<span class="font-bold text-teal-700">{{ 'profile.meetings.upcoming'|trans }}</span>
+					{% endif %}
+					{% if workflow_can(meeting, 'start') or workflow_has_marked_place(meeting, 'started') %}
+						{% include 'components/_button.html.twig' with {label: 'profile.meetings.join'|trans, icon: '@images/icons/users.svg', link: path('meeting_join', {id: meeting.id}), wrapper_classes: 'flex justify-center', outlined: true} only %}
+					{% endif %}
+					{% if workflow_has_marked_place(meeting, 'canceled') %}
+						<span class="font-bold text-red-400">{{ 'profile.meetings.canceled'|trans }}</span>
+					{% endif %}
+
+					{% if workflow_has_marked_place(meeting, 'ended') %}
+						<span class="font-bold text-teal-700">{{ 'profile.meetings.waitingForRecording'|trans }}</span>
+					{% endif %}
+					{% if workflow_has_marked_place(meeting, 'playable') %}
+						{% include 'components/_button.html.twig' with {label: 'profile.meetings.replay'|trans, icon: '@images/icons/player.svg', link: path('meeting_replay', {id: meeting.id}), wrapper_classes: 'flex justify-center', outlined: true} only %}
+					{% endif %}
+					</td>
 				</tr>
-                {# <tr class="h-20 border-b border-slate-500">
-					<td>15/04/2022 à 21:00</td>
-					<td>1h</td>
-					<td>{% include 'components/_button.html.twig' with {label: 'profile.meetings.join'|trans, link: path('book'), wrapper_classes: 'flex justify-center', outlined: true} only %}</td>
-				</tr>
-                <tr class="h-20 border-b border-slate-500">
-					<td>14/04/2022 à 10:00</td>
-					<td>1h</td>
-					<td>{% include 'components/_button.html.twig' with {label: 'profile.meetings.replay'|trans, link: path('book'), wrapper_classes: 'flex justify-center'} only %}</td>
-				</tr> #}
 				{% endfor %}
 			</tbody>
 		</table>
 	</section>
-    {% include 'components/_button.html.twig' with {label: 'profile.logout'|trans, link: path('logout'), wrapper_classes: 'flex justify-items-start', outlined: true} only %}
+    {% include 'components/_button.html.twig' with {label: 'profile.logout'|trans, icon: '@images/icons/logout.svg', link: path('logout'), wrapper_classes: 'flex justify-items-start', outlined: true} only %}
 {% endblock %}

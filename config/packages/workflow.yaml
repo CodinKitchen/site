@@ -11,19 +11,37 @@ framework:
             places:
                 - draft
                 - pending
+                - confirmed
                 - started
                 - ended
+                - playable
                 - canceled
             transitions:
                 request:
                     from: draft
                     to: pending
-                start:
+                confirm:
                     from: pending
+                    to: confirmed
+                auto_validate:
+                    from: draft
+                    to: confirmed
+                    metadata:
+                        manual_action: false
+                start:
+                    guard: "subject.isJoinable()"
+                    from: confirmed
                     to:   started
                 end:
                     from: started
                     to:   ended
+                    metadata:
+                        manual_action: false
+                to_playable:
+                    from: ended
+                    to:   playable
+                    metadata:
+                        manual_action: false
                 cancel:
                     from: pending
                     to:   canceled

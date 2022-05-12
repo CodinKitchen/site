@@ -143,6 +143,9 @@
     "psr/log": {
         "version": "3.0.0"
     },
+    "scienta/doctrine-json-functions": {
+        "version": "5.0.0"
+    },
     "sensio/framework-extra-bundle": {
         "version": "6.2",
         "recipe": {
@@ -229,6 +232,9 @@
     },
     "symfony/event-dispatcher-contracts": {
         "version": "v3.0.0"
+    },
+    "symfony/expression-language": {
+        "version": "v6.0.8"
     },
     "symfony/filesystem": {
         "version": "v6.0.3"

@@ -13,15 +13,19 @@ class Meeting
 {
     public const STATUS_DRAFT = 'draft';
     public const STATUS_PENDING = 'pending';
+    public const STATUS_CONFIRMED = 'confirmed';
     public const STATUS_STARTED = 'started';
     public const STATUS_ENDED = 'ended';
+    public const STATUS_PLAYABLE = 'playable';
     public const STATUS_CANCELED = 'canceled';
 
     public const ALLOWED_STATUSES = [
         self::STATUS_DRAFT,
         self::STATUS_PENDING,
+        self::STATUS_CONFIRMED,
         self::STATUS_STARTED,
         self::STATUS_ENDED,
+        self::STATUS_PLAYABLE,
         self::STATUS_CANCELED,
     ];
 
@@ -51,6 +55,16 @@ class Meeting
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $note;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $bbbRecordingId;
+
+    private ?string $meetingUrl;
+
+    public function __construct()
+    {
+        $this->status = self::STATUS_DRAFT;
+    }
 
     public function getId(): ?int
     {
@@ -118,5 +132,34 @@ class Meeting
         $this->note = $note;
 
         return $this;
+    }
+
+    public function getBbbRecordingId(): ?string
+    {
+        return $this->bbbRecordingId;
+    }
+
+    public function setBbbRecordingId(?string $bbbRecordingId): self
+    {
+        $this->bbbRecordingId = $bbbRecordingId;
+
+        return $this;
+    }
+
+    public function getMeetingUrl(): ?string
+    {
+        return $this->meetingUrl;
+    }
+
+    public function setMeetingUrl(string $meetingUrl): self
+    {
+        $this->meetingUrl = $meetingUrl;
+
+        return $this;
+    }
+
+    public function isJoinable(): bool
+    {
+        return $this->status === self::STATUS_CONFIRMED && $this->timeSlot < new DateTimeImmutable();
     }
 }

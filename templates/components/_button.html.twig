@@ -11,6 +11,7 @@
 
 {% set wrapper_classes = wrapper_classes|default("flex justify-center mt-5 sm:mt-8") %}
 {% set type = type|default("button") %}
+{% set icon = icon|default(null) %}
 {% set icon = icon ? '<div class="mr-2">' ~ include(icon) ~ '</div>' : '' %}
 
 <div class="{{ wrapper_classes }}">
