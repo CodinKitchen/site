@@ -41,6 +41,9 @@ class MeetingService
         $createMeetingParams->setAllowStartStopRecording(true);
         $createMeetingParams->setLogoutUrl($logoutUrl);
         $createMeetingParams->setLogo($logoUrl);
+        $createMeetingParams->setEndCallbackUrl($this->urlGenerator->generate('meeting_ended', ['id' => $meeting->getId()]));
+        // $createMeetingParams->setRecordingReadyCallbackUrl($this->urlGenerator->generate('meeting_replay_ready', ['id' => $meeting->getId()]));
+        $createMeetingParams->setRecordingReadyCallbackUrl('https://webhook.site/1071c79b-9570-4bdb-84d9-2a9293c7492c');
         $meetingResponse = $this->bigBlueButton->createMeeting($createMeetingParams);
 
         $password = $moderator ? $meetingResponse->getModeratorPassword() : $meetingResponse->getAttendeePassword();

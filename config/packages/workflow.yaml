@@ -14,6 +14,7 @@ framework:
                 - confirmed
                 - started
                 - ended
+                - wait_for_recording
                 - playable
                 - canceled
             transitions:
@@ -35,6 +36,11 @@ framework:
                 end:
                     from: started
                     to:   ended
+                    metadata:
+                        manual_action: false
+                wait_for_recording:
+                    from: started
+                    to:   wait_for_recording
                     metadata:
                         manual_action: false
                 to_playable:

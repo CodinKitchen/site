@@ -47,7 +47,7 @@ class MeetingSubscriber implements EventSubscriberInterface
             'workflow.meeting.transition.start' => [
                 ['persistMeeting', 20],
                 ['generateMeetingUrl', 10],
-            ]
+            ],
         ];
     }
 

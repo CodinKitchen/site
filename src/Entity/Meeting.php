@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\MeetingRepository;
-use App\Validator\Meeting\TimeSlotAvailability;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,6 +15,7 @@ class Meeting
     public const STATUS_CONFIRMED = 'confirmed';
     public const STATUS_STARTED = 'started';
     public const STATUS_ENDED = 'ended';
+    public const STATUS_WAITING_RECORDING = 'wait_for_recording';
     public const STATUS_PLAYABLE = 'playable';
     public const STATUS_CANCELED = 'canceled';
 
@@ -25,6 +25,7 @@ class Meeting
         self::STATUS_CONFIRMED,
         self::STATUS_STARTED,
         self::STATUS_ENDED,
+        self::STATUS_WAITING_RECORDING,
         self::STATUS_PLAYABLE,
         self::STATUS_CANCELED,
     ];
@@ -34,7 +35,7 @@ class Meeting
     #[ORM\Column(type: 'integer')]
     private ?int $id;
 
-    #[ORM\Column(type: 'string', length: 10)]
+    #[ORM\Column(type: 'string', length: 25)]
     #[Assert\NotBlank]
     private ?string $status;
 
@@ -50,7 +51,6 @@ class Meeting
 
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\NotNull(message:'error.meeting.timeSlot')]
-    // #[TimeSlotAvailability()]
     private ?DateTimeImmutable $timeSlot;
 
     #[ORM\Column(type: 'text', nullable: true)]
